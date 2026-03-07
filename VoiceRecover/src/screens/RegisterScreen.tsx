@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useEffect, useState } from 'react';
 import {
+  Animated,
+  Easing,
   View,
   Text,
   TextInput,
-  TouchableOpacity,
   SafeAreaView,
   StyleSheet,
   KeyboardAvoidingView,
@@ -17,11 +18,65 @@ import { RootStackParamList } from '../navigation/AppNavigator';
 import { AuthContext } from '../navigation/AppNavigator';
 import { register } from '../services/auth';
 import { Disclaimer } from '../components/Disclaimer';
+import { FadeInView } from '../components/FadeInView';
+import { StaggeredWords } from '../components/StaggeredWords';
+import { AnimatedPressable } from '../components/AnimatedPressable';
 import { colors } from '../theme/colors';
 import { typography } from '../theme/typography';
 import { spacing, borderRadius } from '../theme/spacing';
 
 type Nav = StackNavigationProp<RootStackParamList, 'Register'>;
+
+// ── Bouncing logo emoji ───────────────────────────────────────────────────────
+
+function BouncingEmoji() {
+  const scale   = useRef(new Animated.Value(0.3)).current;
+  const opacity = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.spring(scale, {
+        toValue: 1,
+        friction: 5,
+        tension: 110,
+        useNativeDriver: true,
+      }),
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 280,
+        easing: Easing.out(Easing.quad),
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
+
+  return (
+    <Animated.Text style={[styles.emoji, { transform: [{ scale }], opacity }]}>
+      {'\uD83C\uDFB5'}
+    </Animated.Text>
+  );
+}
+
+// ── Animated field row ────────────────────────────────────────────────────────
+
+function AnimatedField({
+  label,
+  delay,
+  children,
+}: {
+  label: string;
+  delay: number;
+  children: React.ReactNode;
+}) {
+  return (
+    <FadeInView delay={delay} fromY={14} duration={360}>
+      <Text style={styles.label}>{label}</Text>
+      {children}
+    </FadeInView>
+  );
+}
+
+// ── Screen ────────────────────────────────────────────────────────────────────
 
 export function RegisterScreen() {
   const navigation       = useNavigation<Nav>();
@@ -66,74 +121,96 @@ export function RegisterScreen() {
       >
         <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
 
-          {/* Hero */}
+          {/* ── Hero ──────────────────────────────────── */}
           <View style={styles.hero}>
-            <Text style={styles.emoji}>🎵</Text>
-            <Text style={styles.appName}>VoiceRecover</Text>
-            <Text style={styles.tagline}>AI Speech Therapy Companion</Text>
+            <BouncingEmoji />
+            <StaggeredWords
+              text="VoiceRecover"
+              initialDelay={160}
+              wordDelay={0}
+              duration={440}
+              fromY={18}
+              style={styles.appNameWord}
+            />
+            <FadeInView delay={380} fromY={10} duration={380}>
+              <Text style={styles.tagline}>AI Speech Therapy Companion</Text>
+            </FadeInView>
           </View>
 
-          {/* Card */}
-          <View style={styles.card}>
-            <Text style={styles.heading}>Create account</Text>
-            <Text style={styles.subheading}>Your progress will be saved securely.</Text>
+          {/* ── Card ──────────────────────────────────── */}
+          <FadeInView delay={260} fromY={44} duration={520} style={styles.card}>
+            <FadeInView delay={380} fromY={8} duration={360}>
+              <Text style={styles.heading}>Create account</Text>
+              <Text style={styles.subheading}>Your progress will be saved securely.</Text>
+            </FadeInView>
 
-            {error && <Text style={styles.errorText}>{error}</Text>}
+            {error && (
+              <FadeInView fromY={6} duration={300} style={styles.errorBanner}>
+                <Text style={styles.errorText}>{error}</Text>
+              </FadeInView>
+            )}
 
-            <Text style={styles.label}>Your name</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="e.g. Alex"
-              placeholderTextColor={colors.textLight}
-              value={name}
-              onChangeText={setName}
-              autoCapitalize="words"
-              returnKeyType="next"
-            />
+            <AnimatedField label="YOUR NAME" delay={460}>
+              <TextInput
+                style={styles.input}
+                placeholder="e.g. Alex"
+                placeholderTextColor={colors.textLight}
+                value={name}
+                onChangeText={setName}
+                autoCapitalize="words"
+                returnKeyType="next"
+              />
+            </AnimatedField>
 
-            <Text style={styles.label}>Username</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="choose_a_username"
-              placeholderTextColor={colors.textLight}
-              value={username}
-              onChangeText={setUsername}
-              autoCapitalize="none"
-              autoCorrect={false}
-              returnKeyType="next"
-            />
+            <AnimatedField label="USERNAME" delay={530}>
+              <TextInput
+                style={styles.input}
+                placeholder="choose_a_username"
+                placeholderTextColor={colors.textLight}
+                value={username}
+                onChangeText={setUsername}
+                autoCapitalize="none"
+                autoCorrect={false}
+                returnKeyType="next"
+              />
+            </AnimatedField>
 
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="••••••••"
-              placeholderTextColor={colors.textLight}
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              returnKeyType="done"
-              onSubmitEditing={handleRegister}
-            />
+            <AnimatedField label="PASSWORD" delay={600}>
+              <TextInput
+                style={styles.input}
+                placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022"
+                placeholderTextColor={colors.textLight}
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+                returnKeyType="done"
+                onSubmitEditing={handleRegister}
+              />
+            </AnimatedField>
 
-            <TouchableOpacity
-              style={[styles.primaryButton, loading && styles.buttonDisabled]}
-              onPress={handleRegister}
-              disabled={loading}
-            >
-              {loading
-                ? <ActivityIndicator color="#fff" />
-                : <Text style={styles.primaryButtonText}>Create Account</Text>
-              }
-            </TouchableOpacity>
+            <FadeInView delay={710} fromY={16} duration={400}>
+              <AnimatedPressable
+                style={[styles.primaryButton, loading && styles.buttonDisabled]}
+                onPress={handleRegister}
+                disabled={loading}
+              >
+                {loading
+                  ? <ActivityIndicator color="#fff" />
+                  : <Text style={styles.primaryButtonText}>Create Account</Text>
+                }
+              </AnimatedPressable>
+            </FadeInView>
 
-            <TouchableOpacity
-              style={styles.linkRow}
-              onPress={() => navigation.navigate('Login')}
-            >
-              <Text style={styles.linkText}>Already have an account?  </Text>
-              <Text style={[styles.linkText, styles.linkBold]}>Sign in</Text>
-            </TouchableOpacity>
-          </View>
+            <FadeInView delay={800} fromY={10} duration={360}>
+              <AnimatedPressable
+                style={styles.linkRow}
+                onPress={() => navigation.navigate('Login')}
+              >
+                <Text style={styles.linkText}>Already have an account?  </Text>
+                <Text style={[styles.linkText, styles.linkBold]}>Sign in</Text>
+              </AnimatedPressable>
+            </FadeInView>
+          </FadeInView>
 
         </ScrollView>
       </KeyboardAvoidingView>
@@ -144,7 +221,7 @@ export function RegisterScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
-  flex:       { flex: 1 },
+  flex:      { flex: 1 },
   scroll: {
     flexGrow: 1,
     justifyContent: 'center',
@@ -153,8 +230,13 @@ const styles = StyleSheet.create({
   },
 
   hero: { alignItems: 'center', marginBottom: spacing.xl },
-  emoji:   { fontSize: 52, marginBottom: spacing.sm },
-  appName: { ...typography.h1, color: colors.primary },
+  emoji: { fontSize: 52, marginBottom: spacing.sm },
+  appNameWord: {
+    fontSize: 30,
+    fontWeight: '800',
+    color: colors.primary,
+    letterSpacing: -0.5,
+  },
   tagline: { ...typography.body, color: colors.textSecondary, marginTop: spacing.xs },
 
   card: {
@@ -162,22 +244,21 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.xl,
     padding: spacing.xl,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 4,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.10,
+    shadowRadius: 16,
+    elevation: 6,
   },
   heading:    { ...typography.h2, color: colors.text, marginBottom: spacing.xs },
   subheading: { ...typography.body, color: colors.textSecondary, marginBottom: spacing.md },
 
-  errorText: {
-    ...typography.body,
-    color: colors.error,
+  errorBanner: {
     backgroundColor: '#FFF0F0',
     borderRadius: borderRadius.md,
     padding: spacing.sm,
     marginBottom: spacing.md,
   },
+  errorText: { ...typography.body, color: colors.error },
 
   label: {
     ...typography.caption,
@@ -185,7 +266,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xs,
     marginTop: spacing.sm,
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    letterSpacing: 0.6,
   },
   input: {
     backgroundColor: colors.background,
@@ -206,10 +287,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: spacing.lg,
     shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 4,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.35,
+    shadowRadius: 10,
+    elevation: 5,
   },
   buttonDisabled:    { opacity: 0.6 },
   primaryButtonText: { ...typography.button, color: '#fff', fontSize: 17 },

@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { Animated, Easing, View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -78,9 +78,30 @@ function TabIcon({ emoji, focused }: { emoji: string; focused: boolean }) {
 
 // ── Home Tab (Welcome + Challenge) ──────────────────────────────────────────
 
+// Shared smooth transition for all inner stacks
+const STACK_TRANSITION = {
+  headerShown: false,
+  cardStyleInterpolator: ({ current }: any) => ({
+    cardStyle: {
+      opacity: current.progress,
+      transform: [{
+        translateY: current.progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [18, 0],
+          extrapolate: 'clamp',
+        }),
+      }],
+    },
+  }),
+  transitionSpec: {
+    open:  { animation: 'timing' as const, config: { duration: 360, easing: Easing.out(Easing.quad) } },
+    close: { animation: 'timing' as const, config: { duration: 260, easing: Easing.in(Easing.quad) } },
+  },
+};
+
 function HomeStackScreen() {
   return (
-    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+    <HomeStack.Navigator screenOptions={STACK_TRANSITION}>
       <HomeStack.Screen name="Welcome" component={WelcomeScreen} />
       <HomeStack.Screen name="Challenge" component={ChallengeScreen} />
     </HomeStack.Navigator>
@@ -91,7 +112,7 @@ function HomeStackScreen() {
 
 function ExerciseStackScreen() {
   return (
-    <ExerciseStack.Navigator screenOptions={{ headerShown: false }}>
+    <ExerciseStack.Navigator screenOptions={STACK_TRANSITION}>
       <ExerciseStack.Screen name="Assessment" component={AssessmentScreen} />
       <ExerciseStack.Screen name="MIT" component={MITScreen} />
       <ExerciseStack.Screen name="Results" component={ResultsScreen} />
@@ -103,7 +124,7 @@ function ExerciseStackScreen() {
 
 function StatsStackScreen() {
   return (
-    <StatsStack.Navigator screenOptions={{ headerShown: false }}>
+    <StatsStack.Navigator screenOptions={STACK_TRANSITION}>
       <StatsStack.Screen name="Progress" component={ProgressScreen} />
       <StatsStack.Screen name="Drill" component={DrillScreen} />
     </StatsStack.Navigator>
@@ -237,7 +258,27 @@ export function AppNavigator() {
           <PlacementScreen onComplete={() => setPlacementDone(true)} />
         )
       ) : (
-        <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+        <AuthStack.Navigator
+          screenOptions={{
+            headerShown: false,
+            cardStyleInterpolator: ({ current }) => ({
+              cardStyle: {
+                opacity: current.progress,
+                transform: [{
+                  translateY: current.progress.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [18, 0],
+                    extrapolate: 'clamp',
+                  }),
+                }],
+              },
+            }),
+            transitionSpec: {
+              open:  { animation: 'timing', config: { duration: 380, easing: Easing.out(Easing.quad) } },
+              close: { animation: 'timing', config: { duration: 280, easing: Easing.in(Easing.quad) } },
+            },
+          }}
+        >
           <AuthStack.Screen name="Login" component={LoginScreen} />
           <AuthStack.Screen name="Register" component={RegisterScreen} />
         </AuthStack.Navigator>
