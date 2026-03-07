@@ -1,27 +1,1029 @@
 [
-  {"word": "yes", "phonemes": ["y", "eh", "s"], "level": 1, "category": "survival", "difficulty": 1},
-  {"word": "no", "phonemes": ["n", "ow"], "level": 1, "category": "survival", "difficulty": 1},
-  {"word": "help", "phonemes": ["hh", "eh", "l", "p"], "level": 1, "category": "survival", "difficulty": 1},
-  {"word": "water", "phonemes": ["w", "ao", "t", "er"], "level": 1, "category": "survival", "difficulty": 2},
-  {"word": "more", "phonemes": ["m", "ao", "r"], "level": 1, "category": "daily", "difficulty": 2},
-  {"word": "stop", "phonemes": ["s", "t", "aa", "p"], "level": 1, "category": "survival", "difficulty": 2},
-  {"word": "please", "phonemes": ["p", "l", "iy", "z"], "level": 1, "category": "daily", "difficulty": 2},
-  {"word": "thank you", "phonemes": ["th", "ae", "ng", "k", "y", "uw"], "level": 1, "category": "daily", "difficulty": 3},
-  {"word": "happy", "phonemes": ["hh", "ae", "p", "iy"], "level": 1, "category": "emotional", "difficulty": 2},
-  {"word": "good", "phonemes": ["g", "uh", "d"], "level": 1, "category": "daily", "difficulty": 1},
-  {"word": "home", "phonemes": ["hh", "ow", "m"], "level": 1, "category": "daily", "difficulty": 1},
-  {"word": "eat", "phonemes": ["iy", "t"], "level": 1, "category": "daily", "difficulty": 1},
-  {"word": "pain", "phonemes": ["p", "ey", "n"], "level": 1, "category": "medical", "difficulty": 2},
-  {"word": "cold", "phonemes": ["k", "ow", "l", "d"], "level": 1, "category": "daily", "difficulty": 2},
-  {"word": "hot", "phonemes": ["hh", "aa", "t"], "level": 1, "category": "daily", "difficulty": 1},
-  {"word": "morning", "phonemes": ["m", "ao", "r", "n", "ih", "ng"], "level": 1, "category": "daily", "difficulty": 3},
-  {"word": "sorry", "phonemes": ["s", "ao", "r", "iy"], "level": 1, "category": "emotional", "difficulty": 3},
-  {"word": "hungry", "phonemes": ["hh", "ah", "ng", "g", "r", "iy"], "level": 1, "category": "daily", "difficulty": 3},
-  {"word": "tired", "phonemes": ["t", "ay", "er", "d"], "level": 1, "category": "daily", "difficulty": 3},
-  {"word": "bathroom", "phonemes": ["b", "ae", "th", "r", "uw", "m"], "level": 1, "category": "survival", "difficulty": 4},
-  {"word": "medicine", "phonemes": ["m", "eh", "d", "ah", "s", "ih", "n"], "level": 2, "category": "medical", "difficulty": 4},
-  {"word": "telephone", "phonemes": ["t", "eh", "l", "ah", "f", "ow", "n"], "level": 2, "category": "daily", "difficulty": 4},
-  {"word": "comfortable", "phonemes": ["k", "ah", "m", "f", "er", "t", "ah", "b", "ah", "l"], "level": 2, "category": "daily", "difficulty": 5},
-  {"word": "yesterday", "phonemes": ["y", "eh", "s", "t", "er", "d", "ey"], "level": 2, "category": "daily", "difficulty": 5},
-  {"word": "remember", "phonemes": ["r", "ih", "m", "eh", "m", "b", "er"], "level": 2, "category": "daily", "difficulty": 5}
+  {
+    "word": "bed",
+    "phonemes": [
+      "b",
+      "eh",
+      "d"
+    ],
+    "level": 1,
+    "category": "daily",
+    "difficulty": 1
+  },
+  {
+    "word": "done",
+    "phonemes": [
+      "d",
+      "ah",
+      "n"
+    ],
+    "level": 1,
+    "category": "daily",
+    "difficulty": 1
+  },
+  {
+    "word": "eat",
+    "phonemes": [
+      "iy",
+      "t"
+    ],
+    "level": 1,
+    "category": "survival",
+    "difficulty": 1
+  },
+  {
+    "word": "hot",
+    "phonemes": [
+      "hh",
+      "aa",
+      "t"
+    ],
+    "level": 1,
+    "category": "daily",
+    "difficulty": 1
+  },
+  {
+    "word": "me",
+    "phonemes": [
+      "m",
+      "iy"
+    ],
+    "level": 1,
+    "category": "survival",
+    "difficulty": 1
+  },
+  {
+    "word": "mom",
+    "phonemes": [
+      "m",
+      "aa",
+      "m"
+    ],
+    "level": 1,
+    "category": "social",
+    "difficulty": 1
+  },
+  {
+    "word": "up",
+    "phonemes": [
+      "ah",
+      "p"
+    ],
+    "level": 1,
+    "category": "daily",
+    "difficulty": 1
+  },
+  {
+    "word": "want",
+    "phonemes": [
+      "w",
+      "aa",
+      "n",
+      "t"
+    ],
+    "level": 1,
+    "category": "survival",
+    "difficulty": 1
+  },
+  {
+    "word": "again",
+    "phonemes": [
+      "ah",
+      "g",
+      "eh",
+      "n"
+    ],
+    "level": 1,
+    "category": "daily",
+    "difficulty": 2
+  },
+  {
+    "word": "book",
+    "phonemes": [
+      "b",
+      "uh",
+      "k"
+    ],
+    "level": 1,
+    "category": "daily",
+    "difficulty": 2
+  },
+  {
+    "word": "come",
+    "phonemes": [
+      "k",
+      "ah",
+      "m"
+    ],
+    "level": 1,
+    "category": "daily",
+    "difficulty": 2
+  },
+  {
+    "word": "cup",
+    "phonemes": [
+      "k",
+      "ah",
+      "p"
+    ],
+    "level": 1,
+    "category": "daily",
+    "difficulty": 2
+  },
+  {
+    "word": "dad",
+    "phonemes": [
+      "d",
+      "ae",
+      "d"
+    ],
+    "level": 1,
+    "category": "social",
+    "difficulty": 2
+  },
+  {
+    "word": "food",
+    "phonemes": [
+      "f",
+      "uw",
+      "d"
+    ],
+    "level": 1,
+    "category": "survival",
+    "difficulty": 2
+  },
+  {
+    "word": "go",
+    "phonemes": [
+      "g",
+      "ow"
+    ],
+    "level": 1,
+    "category": "daily",
+    "difficulty": 2
+  },
+  {
+    "word": "good",
+    "phonemes": [
+      "g",
+      "uh",
+      "d"
+    ],
+    "level": 1,
+    "category": "daily",
+    "difficulty": 2
+  },
+  {
+    "word": "happy",
+    "phonemes": [
+      "hh",
+      "ae",
+      "p",
+      "iy"
+    ],
+    "level": 1,
+    "category": "emotional",
+    "difficulty": 2
+  },
+  {
+    "word": "home",
+    "phonemes": [
+      "hh",
+      "ow",
+      "m"
+    ],
+    "level": 1,
+    "category": "daily",
+    "difficulty": 2
+  },
+  {
+    "word": "name",
+    "phonemes": [
+      "n",
+      "ey",
+      "m"
+    ],
+    "level": 1,
+    "category": "social",
+    "difficulty": 2
+  },
+  {
+    "word": "no",
+    "phonemes": [
+      "n",
+      "ow"
+    ],
+    "level": 1,
+    "category": "survival",
+    "difficulty": 2
+  },
+  {
+    "word": "open",
+    "phonemes": [
+      "ow",
+      "p",
+      "ah",
+      "n"
+    ],
+    "level": 1,
+    "category": "daily",
+    "difficulty": 2
+  },
+  {
+    "word": "pain",
+    "phonemes": [
+      "p",
+      "ey",
+      "n"
+    ],
+    "level": 1,
+    "category": "medical",
+    "difficulty": 2
+  },
+  {
+    "word": "today",
+    "phonemes": [
+      "t",
+      "ah",
+      "d",
+      "ey"
+    ],
+    "level": 1,
+    "category": "daily",
+    "difficulty": 2
+  },
+  {
+    "word": "wait",
+    "phonemes": [
+      "w",
+      "ey",
+      "t"
+    ],
+    "level": 1,
+    "category": "daily",
+    "difficulty": 2
+  },
+  {
+    "word": "always",
+    "phonemes": [
+      "ao",
+      "l",
+      "w",
+      "ey",
+      "z"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 3
+  },
+  {
+    "word": "boy",
+    "phonemes": [
+      "b",
+      "oy"
+    ],
+    "level": 2,
+    "category": "social",
+    "difficulty": 3
+  },
+  {
+    "word": "bye",
+    "phonemes": [
+      "b",
+      "ay"
+    ],
+    "level": 2,
+    "category": "social",
+    "difficulty": 3
+  },
+  {
+    "word": "cold",
+    "phonemes": [
+      "k",
+      "ow",
+      "l",
+      "d"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 3
+  },
+  {
+    "word": "down",
+    "phonemes": [
+      "d",
+      "aw",
+      "n"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 3
+  },
+  {
+    "word": "family",
+    "phonemes": [
+      "f",
+      "ae",
+      "m",
+      "ah",
+      "l",
+      "iy"
+    ],
+    "level": 2,
+    "category": "social",
+    "difficulty": 3
+  },
+  {
+    "word": "finger",
+    "phonemes": [
+      "f",
+      "ih",
+      "ng",
+      "g",
+      "er"
+    ],
+    "level": 2,
+    "category": "medical",
+    "difficulty": 3
+  },
+  {
+    "word": "give",
+    "phonemes": [
+      "g",
+      "ih",
+      "v"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 3
+  },
+  {
+    "word": "have",
+    "phonemes": [
+      "hh",
+      "ae",
+      "v"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 3
+  },
+  {
+    "word": "help",
+    "phonemes": [
+      "hh",
+      "eh",
+      "l",
+      "p"
+    ],
+    "level": 2,
+    "category": "survival",
+    "difficulty": 3
+  },
+  {
+    "word": "hi",
+    "phonemes": [
+      "hh",
+      "ay"
+    ],
+    "level": 2,
+    "category": "social",
+    "difficulty": 3
+  },
+  {
+    "word": "house",
+    "phonemes": [
+      "hh",
+      "aw",
+      "s"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 3
+  },
+  {
+    "word": "love",
+    "phonemes": [
+      "l",
+      "ah",
+      "v"
+    ],
+    "level": 2,
+    "category": "emotional",
+    "difficulty": 3
+  },
+  {
+    "word": "medicine",
+    "phonemes": [
+      "m",
+      "eh",
+      "d",
+      "ah",
+      "s",
+      "ih",
+      "n"
+    ],
+    "level": 2,
+    "category": "medical",
+    "difficulty": 3
+  },
+  {
+    "word": "now",
+    "phonemes": [
+      "n",
+      "aw"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 3
+  },
+  {
+    "word": "outside",
+    "phonemes": [
+      "aw",
+      "t",
+      "s",
+      "ay",
+      "d"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 3
+  },
+  {
+    "word": "please",
+    "phonemes": [
+      "p",
+      "l",
+      "iy",
+      "z"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 3
+  },
+  {
+    "word": "read",
+    "phonemes": [
+      "r",
+      "iy",
+      "d"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 3
+  },
+  {
+    "word": "shoe",
+    "phonemes": [
+      "sh",
+      "uw"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 3
+  },
+  {
+    "word": "size",
+    "phonemes": [
+      "s",
+      "ay",
+      "z"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 3
+  },
+  {
+    "word": "stop",
+    "phonemes": [
+      "s",
+      "t",
+      "aa",
+      "p"
+    ],
+    "level": 2,
+    "category": "survival",
+    "difficulty": 3
+  },
+  {
+    "word": "telephone",
+    "phonemes": [
+      "t",
+      "eh",
+      "l",
+      "ah",
+      "f",
+      "ow",
+      "n"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 3
+  },
+  {
+    "word": "the",
+    "phonemes": [
+      "dh",
+      "ah"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 3
+  },
+  {
+    "word": "tired",
+    "phonemes": [
+      "t",
+      "ay",
+      "er",
+      "d"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 3
+  },
+  {
+    "word": "water",
+    "phonemes": [
+      "w",
+      "ao",
+      "t",
+      "er"
+    ],
+    "level": 2,
+    "category": "survival",
+    "difficulty": 3
+  },
+  {
+    "word": "yes",
+    "phonemes": [
+      "y",
+      "eh",
+      "s"
+    ],
+    "level": 2,
+    "category": "survival",
+    "difficulty": 3
+  },
+  {
+    "word": "yesterday",
+    "phonemes": [
+      "y",
+      "eh",
+      "s",
+      "t",
+      "er",
+      "d",
+      "ey"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 3
+  },
+  {
+    "word": "bathroom",
+    "phonemes": [
+      "b",
+      "ae",
+      "th",
+      "r",
+      "uw",
+      "m"
+    ],
+    "level": 2,
+    "category": "survival",
+    "difficulty": 4
+  },
+  {
+    "word": "brother",
+    "phonemes": [
+      "b",
+      "r",
+      "ah",
+      "dh",
+      "er"
+    ],
+    "level": 2,
+    "category": "social",
+    "difficulty": 4
+  },
+  {
+    "word": "comfortable",
+    "phonemes": [
+      "k",
+      "ah",
+      "m",
+      "f",
+      "er",
+      "t",
+      "ah",
+      "b",
+      "ah",
+      "l"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "exercise",
+    "phonemes": [
+      "eh",
+      "k",
+      "s",
+      "er",
+      "s",
+      "ay",
+      "z"
+    ],
+    "level": 2,
+    "category": "medical",
+    "difficulty": 4
+  },
+  {
+    "word": "finish",
+    "phonemes": [
+      "f",
+      "ih",
+      "n",
+      "ih",
+      "sh"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "hungry",
+    "phonemes": [
+      "hh",
+      "ah",
+      "ng",
+      "g",
+      "r",
+      "iy"
+    ],
+    "level": 2,
+    "category": "survival",
+    "difficulty": 4
+  },
+  {
+    "word": "measure",
+    "phonemes": [
+      "m",
+      "eh",
+      "zh",
+      "er"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "more",
+    "phonemes": [
+      "m",
+      "ao",
+      "r"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "morning",
+    "phonemes": [
+      "m",
+      "ao",
+      "r",
+      "n",
+      "ih",
+      "ng"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "nothing",
+    "phonemes": [
+      "n",
+      "ah",
+      "th",
+      "ih",
+      "ng"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "other",
+    "phonemes": [
+      "ah",
+      "dh",
+      "er"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "remember",
+    "phonemes": [
+      "r",
+      "ih",
+      "m",
+      "eh",
+      "m",
+      "b",
+      "er"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "right",
+    "phonemes": [
+      "r",
+      "ay",
+      "t"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "shoulder",
+    "phonemes": [
+      "sh",
+      "ow",
+      "l",
+      "d",
+      "er"
+    ],
+    "level": 2,
+    "category": "medical",
+    "difficulty": 4
+  },
+  {
+    "word": "shower",
+    "phonemes": [
+      "sh",
+      "aw",
+      "er"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "sorry",
+    "phonemes": [
+      "s",
+      "ao",
+      "r",
+      "iy"
+    ],
+    "level": 2,
+    "category": "emotional",
+    "difficulty": 4
+  },
+  {
+    "word": "television",
+    "phonemes": [
+      "t",
+      "eh",
+      "l",
+      "ah",
+      "v",
+      "ih",
+      "zh",
+      "ah",
+      "n"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "thank you",
+    "phonemes": [
+      "th",
+      "ae",
+      "ng",
+      "k",
+      "y",
+      "uw"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "that",
+    "phonemes": [
+      "dh",
+      "ae",
+      "t"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "they",
+    "phonemes": [
+      "dh",
+      "ey"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "this",
+    "phonemes": [
+      "dh",
+      "ih",
+      "s"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "three",
+    "phonemes": [
+      "th",
+      "r",
+      "iy"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "together",
+    "phonemes": [
+      "t",
+      "ah",
+      "g",
+      "eh",
+      "dh",
+      "er"
+    ],
+    "level": 2,
+    "category": "social",
+    "difficulty": 4
+  },
+  {
+    "word": "vision",
+    "phonemes": [
+      "v",
+      "ih",
+      "zh",
+      "ah",
+      "n"
+    ],
+    "level": 2,
+    "category": "medical",
+    "difficulty": 4
+  },
+  {
+    "word": "weather",
+    "phonemes": [
+      "w",
+      "eh",
+      "dh",
+      "er"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4
+  },
+  {
+    "word": "catch",
+    "phonemes": [
+      "k",
+      "ae",
+      "ch"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 5
+  },
+  {
+    "word": "choice",
+    "phonemes": [
+      "ch",
+      "oy",
+      "s"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 5
+  },
+  {
+    "word": "church",
+    "phonemes": [
+      "ch",
+      "er",
+      "ch"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 5
+  },
+  {
+    "word": "conversation",
+    "phonemes": [
+      "k",
+      "aa",
+      "n",
+      "v",
+      "er",
+      "s",
+      "ey",
+      "sh",
+      "ah",
+      "n"
+    ],
+    "level": 2,
+    "category": "social",
+    "difficulty": 5
+  },
+  {
+    "word": "enjoy",
+    "phonemes": [
+      "eh",
+      "n",
+      "jh",
+      "oy"
+    ],
+    "level": 2,
+    "category": "emotional",
+    "difficulty": 5
+  },
+  {
+    "word": "joy",
+    "phonemes": [
+      "jh",
+      "oy"
+    ],
+    "level": 2,
+    "category": "emotional",
+    "difficulty": 5
+  },
+  {
+    "word": "judge",
+    "phonemes": [
+      "jh",
+      "ah",
+      "jh"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 5
+  },
+  {
+    "word": "kitchen",
+    "phonemes": [
+      "k",
+      "ih",
+      "ch",
+      "ah",
+      "n"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 5
+  },
+  {
+    "word": "orange",
+    "phonemes": [
+      "ao",
+      "r",
+      "ah",
+      "n",
+      "jh"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 5
+  },
+  {
+    "word": "teacher",
+    "phonemes": [
+      "t",
+      "iy",
+      "ch",
+      "er"
+    ],
+    "level": 2,
+    "category": "social",
+    "difficulty": 5
+  }
 ]
