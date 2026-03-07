@@ -110,7 +110,7 @@ def _init_progress() -> dict:
             "recent_scores": [],       # last N scores
             "consecutive_good": 0,     # streak of ≥80%
             "consecutive_bad": 0,      # streak of <50%
-            "unlocked": diff <= 1,     # only difficulty 1 unlocked initially
+            "unlocked": diff <= 2,     # difficulty 1-2 unlocked initially (24 words)
             "phoneme_scores": {},      # per-phoneme tracking
         }
 
