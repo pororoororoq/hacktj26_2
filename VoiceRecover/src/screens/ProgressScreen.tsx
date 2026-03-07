@@ -111,18 +111,16 @@ export function ProgressScreen() {
 
   const fetchAll = useCallback(async () => {
     try {
-      const [summaryData, historyData, phonemeData, syllableData, user] = await Promise.all([
+      const [summaryData, historyData, phonemeData, user] = await Promise.all([
         getProgressSummary(),
         getScoreHistory(30),
         getPhonemeHistory(),
-        getSyllableReport(),
         getUser(),
       ]);
       setSummary(summaryData);
       setSessions(historyData.sessions);
       setWeekly(historyData.weekly);
       setPhonemes(phonemeData.phonemes);
-      setSyllables(syllableData);
       setUserName(user?.name ?? '');
       setError(null);
 
