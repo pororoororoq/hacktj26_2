@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { Animated, Easing, View, ActivityIndicator } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { WelcomeScreen }    from '../screens/WelcomeScreen';
@@ -89,6 +89,28 @@ export function AppNavigator() {
           headerShown: false,
           cardStyle: { backgroundColor: colors.background },
           gestureEnabled: false,
+          // Smooth fade + subtle upward slide for all screen transitions
+          cardStyleInterpolator: ({ current, layouts }) => ({
+            cardStyle: {
+              opacity: current.progress.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 1],
+              }),
+              transform: [
+                {
+                  translateY: current.progress.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [18, 0],
+                    extrapolate: 'clamp',
+                  }),
+                },
+              ],
+            },
+          }),
+          transitionSpec: {
+            open:  { animation: 'timing', config: { duration: 380, easing: Easing.out(Easing.quad) } },
+            close: { animation: 'timing', config: { duration: 280, easing: Easing.in(Easing.quad) } },
+          },
         }}
       >
         {loggedIn ? (
