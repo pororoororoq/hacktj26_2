@@ -1,0 +1,177 @@
+{
+  "id": "phrase15",
+  "text": "I need to take my medicine",
+  "words": [
+    "I",
+    "need",
+    "to",
+    "take",
+    "my",
+    "medicine"
+  ],
+  "level": 3,
+  "duration": 3.2,
+  "description": "Level 3 MIT phrase: I need to take my medicine",
+  "pitch_contour": [
+    {
+      "time": 0.0,
+      "frequency": 191.0
+    },
+    {
+      "time": 0.1,
+      "frequency": 196.0
+    },
+    {
+      "time": 0.2,
+      "frequency": 196.0
+    },
+    {
+      "time": 0.3,
+      "frequency": 191.0
+    },
+    {
+      "time": 0.4,
+      "frequency": 228.0
+    },
+    {
+      "time": 0.5,
+      "frequency": 233.0
+    },
+    {
+      "time": 0.6,
+      "frequency": 233.0
+    },
+    {
+      "time": 0.7,
+      "frequency": 228.0
+    },
+    {
+      "time": 0.8,
+      "frequency": 191.0
+    },
+    {
+      "time": 0.9,
+      "frequency": 196.0
+    },
+    {
+      "time": 1.0,
+      "frequency": 196.0
+    },
+    {
+      "time": 1.1,
+      "frequency": 191.0
+    },
+    {
+      "time": 1.2,
+      "frequency": 228.0
+    },
+    {
+      "time": 1.3,
+      "frequency": 233.0
+    },
+    {
+      "time": 1.4,
+      "frequency": 233.0
+    },
+    {
+      "time": 1.5,
+      "frequency": 228.0
+    },
+    {
+      "time": 1.6,
+      "frequency": 191.0
+    },
+    {
+      "time": 1.7,
+      "frequency": 196.0
+    },
+    {
+      "time": 1.8,
+      "frequency": 196.0
+    },
+    {
+      "time": 1.9,
+      "frequency": 191.0
+    },
+    {
+      "time": 2.0,
+      "frequency": 228.0
+    },
+    {
+      "time": 2.1,
+      "frequency": 233.0
+    },
+    {
+      "time": 2.2,
+      "frequency": 233.0
+    },
+    {
+      "time": 2.3,
+      "frequency": 228.0
+    },
+    {
+      "time": 2.4,
+      "frequency": 191.0
+    },
+    {
+      "time": 2.5,
+      "frequency": 196.0
+    },
+    {
+      "time": 2.6,
+      "frequency": 196.0
+    },
+    {
+      "time": 2.7,
+      "frequency": 191.0
+    },
+    {
+      "time": 2.8,
+      "frequency": 191.0
+    },
+    {
+      "time": 2.9,
+      "frequency": 196.0
+    },
+    {
+      "time": 3.0,
+      "frequency": 196.0
+    },
+    {
+      "time": 3.1,
+      "frequency": 191.0
+    }
+  ],
+  "word_segments": [
+    {
+      "word": "I",
+      "start": 0.0,
+      "end": 0.4
+    },
+    {
+      "word": "need",
+      "start": 0.4,
+      "end": 0.8
+    },
+    {
+      "word": "to",
+      "start": 0.8,
+      "end": 1.2
+    },
+    {
+      "word": "take",
+      "start": 1.2,
+      "end": 1.6
+    },
+    {
+      "word": "my",
+      "start": 1.6,
+      "end": 2.0
+    },
+    {
+      "word": "medicine",
+      "start": 2.0,
+      "end": 3.2
+    }
+  ]
+}

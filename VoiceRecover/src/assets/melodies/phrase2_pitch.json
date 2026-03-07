@@ -1,0 +1,57 @@
+{
+  "id": "phrase2",
+  "text": "Thank you",
+  "words": [
+    "Thank",
+    "you"
+  ],
+  "level": 1,
+  "duration": 0.8,
+  "description": "Level 1 MIT phrase: Thank you",
+  "pitch_contour": [
+    {
+      "time": 0.0,
+      "frequency": 228.0
+    },
+    {
+      "time": 0.1,
+      "frequency": 233.0
+    },
+    {
+      "time": 0.2,
+      "frequency": 233.0
+    },
+    {
+      "time": 0.3,
+      "frequency": 228.0
+    },
+    {
+      "time": 0.4,
+      "frequency": 191.0
+    },
+    {
+      "time": 0.5,
+      "frequency": 196.0
+    },
+    {
+      "time": 0.6,
+      "frequency": 196.0
+    },
+    {
+      "time": 0.7,
+      "frequency": 191.0
+    }
+  ],
+  "word_segments": [
+    {
+      "word": "Thank",
+      "start": 0.0,
+      "end": 0.4
+    },
+    {
+      "word": "you",
+      "start": 0.4,
+      "end": 0.8
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "id": "phrase3",
+  "text": "Help me",
+  "words": [
+    "Help",
+    "me"
+  ],
+  "level": 1,
+  "duration": 0.8,
+  "description": "Level 1 MIT phrase: Help me",
+  "pitch_contour": [
+    {
+      "time": 0.0,
+      "frequency": 228.0
+    },
+    {
+      "time": 0.1,
+      "frequency": 233.0
+    },
+    {
+      "time": 0.2,
+      "frequency": 233.0
+    },
+    {
+      "time": 0.3,
+      "frequency": 228.0
+    },
+    {
+      "time": 0.4,
+      "frequency": 191.0
+    },
+    {
+      "time": 0.5,
+      "frequency": 196.0
+    },
+    {
+      "time": 0.6,
+      "frequency": 196.0
+    },
+    {
+      "time": 0.7,
+      "frequency": 191.0
+    }
+  ],
+  "word_segments": [
+    {
+      "word": "Help",
+      "start": 0.0,
+      "end": 0.4
+    },
+    {
+      "word": "me",
+      "start": 0.4,
+      "end": 0.8
+    }
+  ]
+}

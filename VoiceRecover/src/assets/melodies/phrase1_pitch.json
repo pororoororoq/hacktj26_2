@@ -1,0 +1,95 @@
+{
+  "id": "phrase1",
+  "text": "I want water",
+  "words": [
+    "I",
+    "want",
+    "water"
+  ],
+  "level": 2,
+  "duration": 1.6,
+  "description": "Level 2 MIT phrase: I want water",
+  "pitch_contour": [
+    {
+      "time": 0.0,
+      "frequency": 228.0
+    },
+    {
+      "time": 0.1,
+      "frequency": 233.0
+    },
+    {
+      "time": 0.2,
+      "frequency": 233.0
+    },
+    {
+      "time": 0.3,
+      "frequency": 228.0
+    },
+    {
+      "time": 0.4,
+      "frequency": 191.0
+    },
+    {
+      "time": 0.5,
+      "frequency": 196.0
+    },
+    {
+      "time": 0.6,
+      "frequency": 196.0
+    },
+    {
+      "time": 0.7,
+      "frequency": 191.0
+    },
+    {
+      "time": 0.8,
+      "frequency": 228.0
+    },
+    {
+      "time": 0.9,
+      "frequency": 233.0
+    },
+    {
+      "time": 1.0,
+      "frequency": 233.0
+    },
+    {
+      "time": 1.1,
+      "frequency": 228.0
+    },
+    {
+      "time": 1.2,
+      "frequency": 191.0
+    },
+    {
+      "time": 1.3,
+      "frequency": 196.0
+    },
+    {
+      "time": 1.4,
+      "frequency": 196.0
+    },
+    {
+      "time": 1.5,
+      "frequency": 191.0
+    }
+  ],
+  "word_segments": [
+    {
+      "word": "I",
+      "start": 0.0,
+      "end": 0.4
+    },
+    {
+      "word": "want",
+      "start": 0.4,
+      "end": 0.8
+    },
+    {
+      "word": "water",
+      "start": 0.8,
+      "end": 1.6
+    }
+  ]
+}

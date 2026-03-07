@@ -1,0 +1,92 @@
+[
+  {
+    "id": "phrase1",
+    "text": "I want water",
+    "level": 2,
+    "duration": 1.6
+  },
+  {
+    "id": "phrase2",
+    "text": "Thank you",
+    "level": 1,
+    "duration": 0.8
+  },
+  {
+    "id": "phrase3",
+    "text": "Help me",
+    "level": 1,
+    "duration": 0.8
+  },
+  {
+    "id": "phrase4",
+    "text": "I need help",
+    "level": 1,
+    "duration": 1.2
+  },
+  {
+    "id": "phrase5",
+    "text": "Good morning",
+    "level": 1,
+    "duration": 1.2
+  },
+  {
+    "id": "phrase6",
+    "text": "Yes please",
+    "level": 1,
+    "duration": 0.8
+  },
+  {
+    "id": "phrase7",
+    "text": "I love you",
+    "level": 1,
+    "duration": 1.2
+  },
+  {
+    "id": "phrase8",
+    "text": "I want to go home",
+    "level": 2,
+    "duration": 2.0
+  },
+  {
+    "id": "phrase9",
+    "text": "How are you today",
+    "level": 2,
+    "duration": 2.0
+  },
+  {
+    "id": "phrase10",
+    "text": "I feel much better",
+    "level": 2,
+    "duration": 2.0
+  },
+  {
+    "id": "phrase11",
+    "text": "Can I have some water",
+    "level": 2,
+    "duration": 2.4
+  },
+  {
+    "id": "phrase12",
+    "text": "I am feeling hungry",
+    "level": 2,
+    "duration": 2.4
+  },
+  {
+    "id": "phrase13",
+    "text": "I would like to go outside",
+    "level": 3,
+    "duration": 2.8
+  },
+  {
+    "id": "phrase14",
+    "text": "Can you help me get up please",
+    "level": 3,
+    "duration": 2.8
+  },
+  {
+    "id": "phrase15",
+    "text": "I need to take my medicine",
+    "level": 3,
+    "duration": 3.2
+  }
+]

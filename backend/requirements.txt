@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+python-multipart
+praat-parselmouth
+librosa
+numpy
+scipy
+pydantic

@@ -1,0 +1,73 @@
+{
+  "id": "phrase5",
+  "text": "Good morning",
+  "words": [
+    "Good",
+    "morning"
+  ],
+  "level": 1,
+  "duration": 1.2,
+  "description": "Level 1 MIT phrase: Good morning",
+  "pitch_contour": [
+    {
+      "time": 0.0,
+      "frequency": 228.0
+    },
+    {
+      "time": 0.1,
+      "frequency": 233.0
+    },
+    {
+      "time": 0.2,
+      "frequency": 233.0
+    },
+    {
+      "time": 0.3,
+      "frequency": 228.0
+    },
+    {
+      "time": 0.4,
+      "frequency": 228.0
+    },
+    {
+      "time": 0.5,
+      "frequency": 233.0
+    },
+    {
+      "time": 0.6,
+      "frequency": 233.0
+    },
+    {
+      "time": 0.7,
+      "frequency": 228.0
+    },
+    {
+      "time": 0.8,
+      "frequency": 191.0
+    },
+    {
+      "time": 0.9,
+      "frequency": 196.0
+    },
+    {
+      "time": 1.0,
+      "frequency": 196.0
+    },
+    {
+      "time": 1.1,
+      "frequency": 191.0
+    }
+  ],
+  "word_segments": [
+    {
+      "word": "Good",
+      "start": 0.0,
+      "end": 0.4
+    },
+    {
+      "word": "morning",
+      "start": 0.4,
+      "end": 1.2
+    }
+  ]
+}
