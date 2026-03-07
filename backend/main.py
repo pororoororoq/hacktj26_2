@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from database import init_db
 from routers import assessment, analysis, tts, progress
+from routers import auth
 
 app = FastAPI(title="Speech Therapy API")
 
@@ -13,6 +15,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth.router)
 app.include_router(assessment.router)
 app.include_router(analysis.router)
 app.include_router(tts.router)
@@ -26,4 +29,5 @@ def health():
 
 @app.on_event("startup")
 async def startup_event():
-    print("Speech Therapy API running")
+    init_db()
+    print("Speech Therapy API running — SQLite ready")
