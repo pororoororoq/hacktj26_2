@@ -102,7 +102,7 @@ def register(req: RegisterRequest):
         )
         db.commit()
         user_id = cursor.lastrowid
-        return {"token": _make_token(user_id), "user_id": user_id, "name": req.name.strip()}
+        return {"token": _make_token(user_id), "user_id": user_id, "name": req.name.strip(), "placement_done": False}
     except sqlite3.IntegrityError:
         raise HTTPException(status_code=400, detail="Username already taken")
 
@@ -112,12 +112,17 @@ def login(req: LoginRequest):
     """Authenticate and return a token."""
     db = get_db()
     row = db.execute(
-        "SELECT id, name, password_hash FROM users WHERE username = ?",
+        "SELECT id, name, password_hash, placement_done FROM users WHERE username = ?",
         (req.username.lower().strip(),),
     ).fetchone()
     if not row or not _verify_password(req.password, row["password_hash"]):
         raise HTTPException(status_code=401, detail="Invalid username or password")
-    return {"token": _make_token(row["id"]), "user_id": row["id"], "name": row["name"]}
+    return {
+        "token": _make_token(row["id"]),
+        "user_id": row["id"],
+        "name": row["name"],
+        "placement_done": bool(row["placement_done"]),
+    }
 
 
 @router.get("/api/me")
@@ -125,8 +130,25 @@ def get_me(user_id: int = Depends(get_current_user)):
     """Return the authenticated user's profile."""
     db = get_db()
     row = db.execute(
-        "SELECT id, username, name FROM users WHERE id = ?", (user_id,)
+        "SELECT id, username, name, placement_done FROM users WHERE id = ?", (user_id,)
     ).fetchone()
     if not row:
         raise HTTPException(status_code=404, detail="User not found")
-    return {"user_id": row["id"], "username": row["username"], "name": row["name"]}
+    return {
+        "user_id": row["id"],
+        "username": row["username"],
+        "name": row["name"],
+        "placement_done": bool(row["placement_done"]),
+    }
+
+
+@router.get("/api/user-status")
+def user_status(user_id: int = Depends(get_current_user)):
+    """Check if the user has completed the placement test."""
+    db = get_db()
+    row = db.execute(
+        "SELECT placement_done FROM users WHERE id = ?", (user_id,)
+    ).fetchone()
+    if not row:
+        raise HTTPException(status_code=404, detail="User not found")
+    return {"placement_done": bool(row["placement_done"])}

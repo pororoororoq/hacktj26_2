@@ -17,6 +17,13 @@ import { spacing, borderRadius } from '../theme/spacing';
 const FALLBACK_WORDS = ['water', 'happy', 'morning'];
 const RECORD_DURATION = 3000; // 3 seconds
 
+function getScoreColor(score: number): string {
+  if (score >= 80) return '#4CAF50';
+  if (score >= 60) return '#FFC107';
+  if (score >= 40) return '#FF9800';
+  return '#F44336';
+}
+
 type Nav = StackNavigationProp<RootStackParamList, 'Assessment'>;
 
 export function AssessmentScreen() {
@@ -150,7 +157,7 @@ export function AssessmentScreen() {
           {currentMeta && (
             <View style={styles.metaBadge}>
               <Text style={styles.metaText}>
-                {currentMeta.times_practiced === 0 ? 'New Word' : `Practiced ${currentMeta.times_practiced}x`}
+                {currentMeta.type === 'tongue_twister' ? '👅 Tongue Twister' : currentMeta.type === 'sentence' ? '💬 Sentence' : (currentMeta.times_practiced === 0 ? 'New Word' : `Practiced ${currentMeta.times_practiced}x`)}
                 {' · '}
                 {'★'.repeat(currentMeta.difficulty)}{'☆'.repeat(5 - currentMeta.difficulty)}
               </Text>
@@ -187,7 +194,7 @@ export function AssessmentScreen() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Text style={styles.header}>Assessment Results</Text>
         <View style={styles.overallScore}>
-          <Text style={styles.scoreValue}>{results!.overall_score}%</Text>
+          <Text style={[styles.scoreValue, { color: getScoreColor(results!.overall_score) }]}>{results!.overall_score}%</Text>
           <Text style={styles.scoreLabel}>Overall Score</Text>
         </View>
         <PhonemeChart wordResults={results!.word_results} weakPhonemes={results!.weak_phonemes} />

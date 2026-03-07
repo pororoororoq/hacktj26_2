@@ -135,6 +135,7 @@ export interface NextWord {
   difficulty: number;
   phonemes: string[];
   category: string;
+  type?: 'word' | 'tongue_twister' | 'sentence';
 }
 
 export interface NextPhrase {
@@ -252,6 +253,7 @@ export interface ChallengeWord {
   difficulty: number;
   category: string;
   phonemes: string[];
+  type?: 'word' | 'tongue_twister' | 'sentence';
   unlocked: boolean;
   times_practiced: number;
   best_score: number;
@@ -312,5 +314,72 @@ export async function getScoreHistory(days: number = 30): Promise<ScoreHistoryRe
 
 export async function getPhonemeHistory(): Promise<PhonemeHistoryResponse> {
   const response = await api.get<PhonemeHistoryResponse>('/api/progress/phoneme-history');
+  return response.data;
+}
+
+// ── Syllable report ──────────────────────────────────────────────────────────
+
+export interface SyllablePositionData {
+  position:     'initial' | 'medial' | 'final';
+  avg_accuracy: number;
+  count:        number;
+}
+
+export interface SyllableShapeData {
+  shape:        string;
+  label:        string;
+  avg_accuracy: number;
+  count:        number;
+}
+
+export interface SyllableSuggestionData {
+  type:        string;
+  title:       string;
+  description: string;
+  words:       string[];
+}
+
+export interface SyllableReportResponse {
+  positions:   SyllablePositionData[];
+  shapes:      SyllableShapeData[];
+  suggestions: SyllableSuggestionData[];
+}
+
+export async function getSyllableReport(): Promise<SyllableReportResponse> {
+  const response = await api.get<SyllableReportResponse>('/api/progress/syllable-report');
+  return response.data;
+}
+
+// ── Phoneme Drill ───────────────────────────────────────────────────────────
+
+export async function getDrillWords(phoneme: string, count: number = 5): Promise<NextWord[]> {
+  const response = await api.get<{ words: NextWord[] }>('/api/drill-words', {
+    params: { phoneme, count },
+  });
+  return response.data.words;
+}
+
+// ── Placement test ───────────────────────────────────────────────────────────
+
+export interface PlacementWord {
+  word:       string;
+  phonemes:   string[];
+  difficulty: number;
+  type:       string;
+}
+
+export async function getPlacementWords(): Promise<PlacementWord[]> {
+  const response = await api.get<{ words: PlacementWord[] }>('/api/placement-words');
+  return response.data.words;
+}
+
+export async function submitPlacementResult(
+  scores: Record<string, number>,
+  phonemeData?: Record<string, { phoneme: string; accuracy: number }[]>,
+): Promise<{ starting_difficulty: number }> {
+  const response = await api.post<{ status: string; starting_difficulty: number }>(
+    '/api/placement-result',
+    { scores, phoneme_data: phonemeData || null },
+  );
   return response.data;
 }

@@ -38,6 +38,18 @@ const CATEGORY_COLORS: Record<string, string> = {
   medical: '#81C784',
 };
 
+const TYPE_BADGES: Record<string, { icon: string; label: string; color: string }> = {
+  tongue_twister: { icon: '👅', label: 'Tongue Twister', color: '#9C27B0' },
+  sentence:       { icon: '💬', label: 'Sentence', color: '#00897B' },
+};
+
+function getScoreColor(score: number): string {
+  if (score >= 80) return '#4CAF50';
+  if (score >= 60) return '#FFC107';
+  if (score >= 40) return '#FF9800';
+  return '#F44336';
+}
+
 export function ChallengeScreen() {
   const navigation = useNavigation();
   const { isRecording, startRecording, stopRecording } = useAudioRecorder();
@@ -142,7 +154,14 @@ export function ChallengeScreen() {
           )}
 
           <View style={styles.wordCardLarge}>
-            <Text style={styles.wordTextLarge}>{selectedWord.word}</Text>
+            {selectedWord.type && TYPE_BADGES[selectedWord.type] && (
+              <View style={[styles.typeBadge, { backgroundColor: TYPE_BADGES[selectedWord.type].color + '20', borderColor: TYPE_BADGES[selectedWord.type].color }]}>
+                <Text style={{ color: TYPE_BADGES[selectedWord.type].color, fontSize: 12, fontWeight: '600' }}>
+                  {TYPE_BADGES[selectedWord.type].icon} {TYPE_BADGES[selectedWord.type].label}
+                </Text>
+              </View>
+            )}
+            <Text style={[styles.wordTextLarge, selectedWord.type !== 'word' && { fontSize: 24 }]}>{selectedWord.word}</Text>
             <Text style={styles.wordMeta}>
               {'★'.repeat(selectedWord.difficulty)}{'☆'.repeat(5 - selectedWord.difficulty)}
               {' · '}{selectedWord.category}
@@ -182,7 +201,7 @@ export function ChallengeScreen() {
               ) : result && result.word_results.length > 0 ? (
                 <>
                   <View style={styles.scoreCard}>
-                    <Text style={styles.scoreValue}>{result.word_results[0].score}%</Text>
+                    <Text style={[styles.scoreValue, { color: getScoreColor(result.word_results[0].score) }]}>{result.word_results[0].score}%</Text>
                     <Text style={styles.scoreLabel}>Accuracy</Text>
                   </View>
                   <View style={styles.phonemeResults}>
@@ -246,20 +265,27 @@ export function ChallengeScreen() {
                       styles.wordChip,
                       w.mastered && styles.wordChipMastered,
                       !w.unlocked && styles.wordChipLocked,
+                      (w.type === 'sentence' || w.type === 'tongue_twister') && { minWidth: 140 },
                     ]}
                     onPress={() => handleSelectWord(w)}
                     activeOpacity={0.7}
                   >
+                    {w.type && TYPE_BADGES[w.type] && (
+                      <Text style={{ fontSize: 9, color: TYPE_BADGES[w.type].color, fontWeight: '700', marginBottom: 1 }}>
+                        {TYPE_BADGES[w.type].icon} {TYPE_BADGES[w.type].label.toUpperCase()}
+                      </Text>
+                    )}
                     <Text style={[
                       styles.wordChipText,
                       !w.unlocked && styles.wordChipTextLocked,
+                      (w.type === 'sentence' || w.type === 'tongue_twister') && { fontSize: 13 },
                     ]}>
                       {w.word}
                     </Text>
                     <View style={styles.wordChipMeta}>
                       {w.mastered && <Text style={styles.masteredBadge}>✓</Text>}
                       {w.best_score > 0 && (
-                        <Text style={[styles.wordChipScore, { color: w.best_score >= 70 ? colors.success : colors.warning }]}>
+                        <Text style={[styles.wordChipScore, { color: getScoreColor(w.best_score) }]}>
                           {w.best_score}%
                         </Text>
                       )}
@@ -353,6 +379,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 12,
     elevation: 3,
+  },
+  typeBadge: {
+    borderRadius: 8,
+    borderWidth: 1,
+    paddingVertical: 2,
+    paddingHorizontal: 8,
+    marginBottom: spacing.sm,
   },
   wordTextLarge: { fontSize: 36, fontWeight: '700', color: colors.text, marginBottom: spacing.xs },
   wordMeta: { ...typography.body, color: colors.textSecondary },

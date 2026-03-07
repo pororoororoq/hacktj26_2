@@ -30,6 +30,7 @@ def init_db():
             username       TEXT    UNIQUE NOT NULL,
             password_hash  TEXT    NOT NULL,
             name           TEXT    DEFAULT '',
+            placement_done INTEGER DEFAULT 0,
             created_at     REAL    DEFAULT (unixepoch())
         );
 
@@ -40,5 +41,11 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users(id)
         );
     """)
+    # Migrate: add placement_done column if missing (existing DBs)
+    try:
+        conn.execute("ALTER TABLE users ADD COLUMN placement_done INTEGER DEFAULT 0")
+        conn.commit()
+    except sqlite3.OperationalError:
+        pass  # Column already exists
     conn.commit()
     conn.close()

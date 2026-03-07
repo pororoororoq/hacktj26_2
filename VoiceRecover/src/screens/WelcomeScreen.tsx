@@ -90,20 +90,14 @@ export function WelcomeScreen() {
         </View>
 
         {/* Action buttons */}
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Assessment')}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.getParent()?.navigate('ExerciseTab')}>
           <Text style={styles.buttonText}>Start Session</Text>
         </TouchableOpacity>
 
-        <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.halfButton} onPress={() => navigation.navigate('Challenge')}>
-            <Text style={styles.halfButtonIcon}>🔥</Text>
-            <Text style={styles.halfButtonText}>Challenge</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.halfButton} onPress={() => navigation.navigate('Progress')}>
-            <Text style={styles.halfButtonIcon}>📊</Text>
-            <Text style={styles.halfButtonText}>Progress</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.challengeButton} onPress={() => navigation.navigate('Challenge')}>
+          <Text style={styles.challengeIcon}>🔥</Text>
+          <Text style={styles.challengeText}>Challenge Mode</Text>
+        </TouchableOpacity>
 
         {/* Daily Missions */}
         <View style={styles.missionsSection}>
@@ -156,10 +150,8 @@ const styles = StyleSheet.create({
   },
   buttonText: { ...typography.button, color: colors.surface, fontSize: 18 },
 
-  // Half buttons row
-  buttonRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.xl },
-  halfButton: {
-    flex: 1,
+  // Challenge button
+  challengeButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -168,9 +160,10 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.xl,
     borderWidth: 1.5,
     borderColor: colors.primary,
+    marginBottom: spacing.xl,
   },
-  halfButtonIcon: { fontSize: 18 },
-  halfButtonText: { ...typography.button, color: colors.primary },
+  challengeIcon: { fontSize: 18 },
+  challengeText: { ...typography.button, color: colors.primary },
 
   // Missions
   missionsSection: { marginTop: spacing.sm },

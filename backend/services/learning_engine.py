@@ -102,14 +102,22 @@ def _save_progress(progress: dict, user_id: int = 0):
             json.dump(progress, f, indent=2)
 
 
-def _init_progress(user_id: int = 0) -> dict:
-    """Create a fresh progress record for a user."""
+def _init_progress(user_id: int = 0, starting_difficulty: int = 1) -> dict:
+    """Create a fresh progress record for a user.
+
+    starting_difficulty: the difficulty level to start at (from placement test).
+    Words up to (starting_difficulty + 1) are unlocked, matching the default
+    behavior of unlocking the current level + one ahead.
+    """
     words   = _load_words()
     melodies = _load_melodies()
 
+    # Unlock threshold: current level + 1 level ahead (same as normal advancement)
+    unlock_up_to = min(starting_difficulty + 1, 5)
+
     progress = {
         "created_at": time.time(),
-        "current_difficulty": 1,
+        "current_difficulty": starting_difficulty,
         "total_sessions": 0,
         "total_practice_time_s": 0,
         "words": {},
@@ -129,7 +137,7 @@ def _init_progress(user_id: int = 0) -> dict:
             "recent_scores": [],
             "consecutive_good": 0,
             "consecutive_bad": 0,
-            "unlocked": diff <= 2,     # difficulty 1-2 unlocked initially (24 words)
+            "unlocked": diff <= unlock_up_to,
             "phoneme_scores": {},
         }
 
@@ -144,7 +152,7 @@ def _init_progress(user_id: int = 0) -> dict:
             "recent_scores": [],
             "consecutive_good": 0,
             "consecutive_bad": 0,
-            "unlocked": level <= 1,
+            "unlocked": level <= starting_difficulty,
         }
 
     _save_progress(progress, user_id)
@@ -184,6 +192,7 @@ def get_next_words(count: int = WORDS_PER_SESSION, user_id: int = 0) -> list[dic
             "difficulty": state["difficulty"],
             "phonemes": word_lookup.get(word, {}).get("phonemes", []),
             "category": word_lookup.get(word, {}).get("category", "daily"),
+            "type": word_lookup.get(word, {}).get("type", "word"),
         }
         if state["times_practiced"] == 0:
             new_words.append(entry)
@@ -883,6 +892,173 @@ def _refresh_mission_status(missions: list[dict], progress: dict) -> list[dict]:
     return missions
 
 
+# ── Syllable analysis ────────────────────────────────────────────────────────
+
+# All vowel phonemes (ARPABET) — these are syllable nuclei
+_VOWELS = frozenset({"aa","ae","ah","ao","aw","ay","eh","er","ey","ih","iy","ow","oy","uh","uw"})
+
+_SHAPE_LABELS: dict[str, str] = {
+    "V":    "Vowel only (V)",
+    "VC":   "Vowel-start (VC)",
+    "CV":   "Open (CV)",
+    "CVC":  "Closed (CVC)",
+    "CCVC": "Cluster onset (CCVC)",
+    "CVCC": "Complex coda (CVCC)",
+    "CCVCC":"Full cluster (CCVCC)",
+}
+
+
+def _cv_shape(phonemes: list[str]) -> str:
+    """Return the CV string for a syllable (e.g. 'CVC', 'CV', 'CCVC')."""
+    return "".join("V" if ph in _VOWELS else "C" for ph in phonemes)
+
+
+def get_syllable_report(user_id: int = 0) -> dict:
+    """
+    Analyse per-syllable accuracy from recorded phoneme scores.
+
+    Returns:
+      positions   – accuracy per syllable position (initial / medial / final)
+      shapes      – accuracy per CV shape (CVC, CV, CCVC, …)
+      suggestions – actionable focus areas with example words to practise
+    """
+    progress   = _load_progress(user_id)
+    words_data = _load_words()
+    word_lookup = {w["word"]: w for w in words_data}
+
+    position_data: dict[str, list[float]] = {"initial": [], "medial": [], "final": []}
+    shape_data:    dict[str, list[float]] = {}
+
+    # words per position where syllable avg < 70 (for focus suggestions)
+    weak_by_pos: dict[str, list[tuple[str, float]]] = {"initial": [], "medial": [], "final": []}
+
+    for word, state in progress["words"].items():
+        if state["times_practiced"] == 0:
+            continue
+        w_data         = word_lookup.get(word, {})
+        phonemes_list  = w_data.get("phonemes", [])
+        syl_groups     = w_data.get("syllable_groups", [])
+        ph_scores      = state.get("phoneme_scores", {})
+
+        if not syl_groups or not ph_scores:
+            continue
+
+        n = len(syl_groups)
+
+        for syl_idx, indices in enumerate(syl_groups):
+            syl_ph = [phonemes_list[i] for i in indices if i < len(phonemes_list)]
+
+            # Gather all recorded scores for this syllable's phonemes
+            scores: list[float] = []
+            for ph in syl_ph:
+                if ph in ph_scores:
+                    scores.extend(ph_scores[ph])
+
+            if not scores:
+                continue
+
+            avg = sum(scores) / len(scores)
+
+            # Position classification
+            if n == 1:
+                pos = "initial"
+            elif syl_idx == 0:
+                pos = "initial"
+            elif syl_idx == n - 1:
+                pos = "final"
+            else:
+                pos = "medial"
+
+            position_data[pos].append(avg)
+            if avg < 70:
+                weak_by_pos[pos].append((word, avg))
+
+            # CV shape
+            shape = _cv_shape(syl_ph)
+            if shape not in shape_data:
+                shape_data[shape] = []
+            shape_data[shape].append(avg)
+
+    # ── Build positions list ─────────────────────────────────────────────────
+    positions = []
+    for pos in ("initial", "medial", "final"):
+        sc = position_data[pos]
+        if sc:
+            positions.append({
+                "position":     pos,
+                "avg_accuracy": round(sum(sc) / len(sc)),
+                "count":        len(sc),
+            })
+
+    # ── Build shapes list ────────────────────────────────────────────────────
+    shapes = []
+    for shape, sc in shape_data.items():
+        shapes.append({
+            "shape":        shape,
+            "label":        _SHAPE_LABELS.get(shape, shape),
+            "avg_accuracy": round(sum(sc) / len(sc)),
+            "count":        len(sc),
+        })
+    shapes.sort(key=lambda x: x["avg_accuracy"])
+
+    # ── Focus suggestions ────────────────────────────────────────────────────
+    suggestions = []
+
+    # Suggestion 1 – weakest syllable position
+    scored_pos = [
+        (pos, round(sum(sc) / len(sc)))
+        for pos, sc in position_data.items()
+        if sc and sum(sc) / len(sc) < 75
+    ]
+    scored_pos.sort(key=lambda x: x[1])
+    if scored_pos:
+        pos, avg = scored_pos[0]
+        pos_display = {"initial": "first syllable", "medial": "middle syllable", "final": "last syllable"}
+        focus_words = sorted(weak_by_pos[pos], key=lambda x: x[1])[:4]
+        if focus_words:
+            suggestions.append({
+                "type":        "position",
+                "title":       f"Strengthen your {pos_display[pos]}",
+                "description": (
+                    f"You score {avg}% on {pos_display[pos]} sounds — "
+                    f"your weakest position. Practise these words:"
+                ),
+                "words": [w for w, _ in focus_words],
+            })
+
+    # Suggestion 2 – weakest syllable shape
+    weak_shapes = [s for s in shapes if s["avg_accuracy"] < 70]
+    if weak_shapes:
+        ws = weak_shapes[0]
+        # Find words that contain this shape and have been attempted
+        shape_words: list[str] = []
+        for word, state in progress["words"].items():
+            if state["times_practiced"] == 0:
+                continue
+            w_data        = word_lookup.get(word, {})
+            phonemes_list = w_data.get("phonemes", [])
+            for indices in w_data.get("syllable_groups", []):
+                syl_ph = [phonemes_list[i] for i in indices if i < len(phonemes_list)]
+                if _cv_shape(syl_ph) == ws["shape"] and word not in shape_words:
+                    shape_words.append(word)
+        if shape_words:
+            suggestions.append({
+                "type":        "shape",
+                "title":       f"Practise {ws['label']} syllables",
+                "description": (
+                    f"Syllables with this pattern average {ws['avg_accuracy']}%. "
+                    "Try these words to build confidence:"
+                ),
+                "words": shape_words[:4],
+            })
+
+    return {
+        "positions":   positions,
+        "shapes":      shapes,
+        "suggestions": suggestions,
+    }
+
+
 # ── Challenge Mode ────────────────────────────────────────────────────────────
 
 def get_all_words_by_difficulty(user_id: int = 0) -> dict[str, Any]:
@@ -902,6 +1078,7 @@ def get_all_words_by_difficulty(user_id: int = 0) -> dict[str, Any]:
             "difficulty":       diff,
             "category":         meta.get("category", "daily"),
             "phonemes":         meta.get("phonemes", []),
+            "type":             meta.get("type", "word"),
             "unlocked":         state["unlocked"],
             "times_practiced":  state["times_practiced"],
             "best_score":       state["best_score"],
@@ -916,3 +1093,148 @@ def get_all_words_by_difficulty(user_id: int = 0) -> dict[str, Any]:
         "current_difficulty": progress["current_difficulty"],
         "levels": {str(k): v for k, v in sorted(levels.items())},
     }
+
+
+# ── Phoneme Drill ─────────────────────────────────────────────────────────────
+
+def get_drill_words(phoneme: str, count: int = 5, user_id: int = 0) -> list[dict]:
+    """Return unlocked words containing the target phoneme, sorted by recall probability.
+
+    Prioritises words the user most needs to review (lowest recall first).
+    Falls back to never-practiced words if there aren't enough reviewed ones.
+    """
+    progress   = _load_progress(user_id)
+    words_data = _load_words()
+    word_lookup = {w["word"]: w for w in words_data}
+
+    candidates = []
+    new_words  = []
+
+    for word, state in progress["words"].items():
+        if not state["unlocked"]:
+            continue
+        meta = word_lookup.get(word, {})
+        word_phonemes = meta.get("phonemes", [])
+        # Check if the target phoneme appears in this word's phoneme list
+        if phoneme.lower() not in [p.lower() for p in word_phonemes]:
+            continue
+
+        p = _recall_probability(state["half_life"], state["last_practiced"])
+        entry = {
+            "word": word,
+            "recall_probability": round(p, 3),
+            "times_practiced": state["times_practiced"],
+            "best_score": state["best_score"],
+            "difficulty": state["difficulty"],
+            "phonemes": word_phonemes,
+            "category": meta.get("category", "daily"),
+            "type": meta.get("type", "word"),
+        }
+        if state["times_practiced"] == 0:
+            new_words.append(entry)
+        else:
+            candidates.append(entry)
+
+    # Sort reviewed words by recall probability (lowest = most needs review)
+    candidates.sort(key=lambda x: x["recall_probability"])
+
+    selected = candidates[:count]
+
+    # Fill remaining slots with new words
+    if len(selected) < count and new_words:
+        new_words.sort(key=lambda x: x["difficulty"])
+        selected.extend(new_words[:count - len(selected)])
+
+    return selected[:count]
+
+
+# ── Placement Test ────────────────────────────────────────────────────────────
+
+# 6 words spanning difficulties 1-3, chosen for diverse phoneme coverage
+_PLACEMENT_WORDS = [
+    # Difficulty 1: simple monosyllables
+    "bed",        # CVC, stop + vowel + stop
+    "hot",        # CVC, fricative + vowel + stop
+    # Difficulty 2: two-syllable words
+    "again",      # vowel-initial, nasal ending
+    "happy",      # two syllables, stop + vowel
+    # Difficulty 3: multi-syllable / short phrase
+    "medicine",   # 3 syllables, nasal + fricative
+    "family",     # 3 syllables, fricative + liquid
+]
+
+
+def get_placement_words() -> list[dict]:
+    """Return the fixed set of placement test words with metadata."""
+    words = _load_words()
+    word_map = {w["word"]: w for w in words}
+    result = []
+    for word_str in _PLACEMENT_WORDS:
+        meta = word_map.get(word_str)
+        if meta:
+            result.append({
+                "word":       meta["word"],
+                "phonemes":   meta["phonemes"],
+                "difficulty": meta.get("difficulty", 1),
+                "type":       meta.get("type", "word"),
+            })
+    return result
+
+
+def apply_placement_result(user_id: int, word_scores: dict[str, int],
+                           phoneme_data: dict[str, list[dict]] | None = None) -> int:
+    """Determine starting difficulty from placement scores and init progress.
+
+    word_scores: {"bed": 85, "hot": 90, "again": 72, ...}
+    phoneme_data: {"bed": [{"phoneme": "b", "accuracy": 100}, ...], ...}
+
+    Returns the chosen starting difficulty (1-3).
+    """
+    words = _load_words()
+    word_map = {w["word"]: w for w in words}
+
+    # Group scores by difficulty level
+    level_scores: dict[int, list[int]] = {}
+    for word, score in word_scores.items():
+        meta = word_map.get(word)
+        if meta:
+            diff = meta.get("difficulty", 1)
+            level_scores.setdefault(diff, []).append(score)
+
+    # Determine starting difficulty: highest level with avg >= 75%
+    starting = 1
+    for level in sorted(level_scores.keys()):
+        scores = level_scores[level]
+        avg = sum(scores) / len(scores) if scores else 0
+        if avg >= 75:
+            starting = max(starting, level)
+        else:
+            break  # Stop escalating if they struggle at this level
+
+    # Cap at 3 — levels 4-5 must be earned through practice
+    starting = min(starting, 3)
+
+    # Initialize progress at the determined difficulty
+    progress = _init_progress(user_id, starting_difficulty=starting)
+
+    # Record the placement phoneme data so heatmaps have initial data
+    if phoneme_data:
+        for word, ph_list in phoneme_data.items():
+            if word in progress["words"]:
+                state = progress["words"][word]
+                for ph in ph_list:
+                    ph_name = ph.get("phoneme", "")
+                    ph_acc  = ph.get("accuracy", 0)
+                    if ph_name:
+                        if ph_name not in state["phoneme_scores"]:
+                            state["phoneme_scores"][ph_name] = []
+                        state["phoneme_scores"][ph_name].append(ph_acc)
+        _save_progress(progress, user_id)
+
+    # Mark placement as done in users table
+    from database import get_db
+    db = get_db()
+    db.execute("UPDATE users SET placement_done = 1 WHERE id = ?", (user_id,))
+    db.commit()
+
+    return starting

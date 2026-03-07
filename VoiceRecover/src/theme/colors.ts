@@ -13,7 +13,9 @@ export const colors = {
 
   // Semantic
   success: '#4CAF50',       // Green
+  successLight: '#81C784',  // Light green
   warning: '#FF9800',       // Orange
+  warningYellow: '#FFC107', // Yellow/amber
   error: '#F44336',         // Red
 
   // Neutrals

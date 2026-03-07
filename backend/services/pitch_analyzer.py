@@ -8,10 +8,14 @@ import numpy as np
 
 _TARGET_MELODIES_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "target_melodies.json")
 
-# Scoring
-_DTW_SCALE = 4.0  # semitones: DTW cost of ~25 semitones avg → score ~0
-_DEVIATION_THRESHOLD_ST = 2.0  # semitones threshold for flagging a region
-_MIN_DEVIATION_DURATION = 0.3  # seconds
+# Scoring — tuned so that moderate pitch errors produce realistic scores:
+#   0 semitones avg → 100%    (perfect match)
+#   2 semitones avg → 80%     (very good)
+#   5 semitones avg → 50%     (mediocre)
+#  10 semitones avg → 0%      (way off)
+_DTW_SCALE = 10.0
+_DEVIATION_THRESHOLD_ST = 1.5  # semitones threshold for flagging a region
+_MIN_DEVIATION_DURATION = 0.25  # seconds
 
 
 def _load_target_melodies() -> dict:

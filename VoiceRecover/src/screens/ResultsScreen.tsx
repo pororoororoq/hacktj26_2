@@ -22,6 +22,13 @@ import { spacing, borderRadius } from '../theme/spacing';
 type Nav = StackNavigationProp<RootStackParamList, 'Results'>;
 type Route = RouteProp<RootStackParamList, 'Results'>;
 
+function getScoreColor(score: number): string {
+  if (score >= 80) return '#4CAF50';   // green
+  if (score >= 60) return '#FFC107';   // yellow
+  if (score >= 40) return '#FF9800';   // orange
+  return '#F44336';                    // red
+}
+
 function getEncouragement(score: number): string {
   if (score >= 80) return 'Amazing progress!';
   if (score >= 60) return 'Great effort!';
@@ -78,12 +85,12 @@ export function ResultsScreen() {
             <ScoreDisplay score={overallScore} label="Overall" size={130} />
             <View style={styles.subScores}>
               <View style={styles.subScoreItem}>
-                <Text style={styles.subScoreValue}>{Math.round(assessmentScore)}%</Text>
+                <Text style={[styles.subScoreValue, { color: getScoreColor(assessmentScore) }]}>{Math.round(assessmentScore)}%</Text>
                 <Text style={styles.subScoreLabel}>Pronunciation</Text>
               </View>
               <View style={styles.subScoreDivider} />
               <View style={styles.subScoreItem}>
-                <Text style={styles.subScoreValue}>{Math.round(pitchScore)}%</Text>
+                <Text style={[styles.subScoreValue, { color: getScoreColor(pitchScore) }]}>{Math.round(pitchScore)}%</Text>
                 <Text style={styles.subScoreLabel}>Pitch Alignment</Text>
               </View>
             </View>
@@ -94,7 +101,7 @@ export function ResultsScreen() {
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>Pitch Performance</Text>
           <View style={styles.pitchScoreBadge}>
-            <Text style={styles.pitchScoreNumber}>{Math.round(pitchScore)}%</Text>
+            <Text style={[styles.pitchScoreNumber, { color: getScoreColor(pitchScore) }]}>{Math.round(pitchScore)}%</Text>
             <Text style={styles.pitchScoreLabel}>Pitch Alignment Score</Text>
           </View>
           {pitchFeedback ? (
@@ -156,14 +163,25 @@ export function ResultsScreen() {
         <View style={styles.buttonSection}>
           <TouchableOpacity
             style={styles.primaryButton}
-            onPress={() => navigation.navigate('Welcome')}
+            onPress={() => {
+              // Navigate to the Home tab
+              const parent = navigation.getParent();
+              if (parent) {
+                parent.navigate('HomeTab');
+              }
+              // Reset the exercise stack to Assessment
+              navigation.reset({ index: 0, routes: [{ name: 'Assessment' }] });
+            }}
             activeOpacity={0.8}
           >
-            <Text style={styles.primaryButtonText}>Start New Session</Text>
+            <Text style={styles.primaryButtonText}>Back to Home</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.secondaryButton}
-            onPress={() => navigation.navigate('Assessment')}
+            onPress={() => {
+              // Reset exercise stack back to Assessment for a fresh start
+              navigation.reset({ index: 0, routes: [{ name: 'Assessment' }] });
+            }}
             activeOpacity={0.8}
           >
             <Text style={styles.secondaryButtonText}>Try Again</Text>
@@ -270,7 +288,7 @@ const styles = StyleSheet.create({
   pitchScoreNumber: {
     fontSize: 40,
     fontWeight: '700',
-    color: colors.secondary,
+    color: colors.text,
     lineHeight: 48,
   },
   pitchScoreLabel: {

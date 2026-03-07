@@ -9,6 +9,7 @@ const USER_KEY  = 'vr_user';
 export interface AuthUser {
   user_id: number;
   name: string;
+  placement_done: boolean;
 }
 
 // ── Storage helpers ───────────────────────────────────────────────────────────
@@ -27,8 +28,8 @@ export async function isLoggedIn(): Promise<boolean> {
   return !!token;
 }
 
-async function _storeAuth(token: string, user_id: number, name: string): Promise<AuthUser> {
-  const user: AuthUser = { user_id, name };
+async function _storeAuth(token: string, user_id: number, name: string, placement_done: boolean): Promise<AuthUser> {
+  const user: AuthUser = { user_id, name, placement_done };
   await AsyncStorage.multiSet([
     [TOKEN_KEY, token],
     [USER_KEY, JSON.stringify(user)],
@@ -36,12 +37,20 @@ async function _storeAuth(token: string, user_id: number, name: string): Promise
   return user;
 }
 
+export async function updatePlacementDone(): Promise<void> {
+  const user = await getUser();
+  if (user) {
+    user.placement_done = true;
+    await AsyncStorage.setItem(USER_KEY, JSON.stringify(user));
+  }
+}
+
 // ── API calls ─────────────────────────────────────────────────────────────────
 
 export async function login(username: string, password: string): Promise<AuthUser> {
   const res = await axios.post(`${API_BASE}/api/login`, { username, password });
-  const { token, user_id, name } = res.data;
-  return _storeAuth(token, user_id, name);
+  const { token, user_id, name, placement_done } = res.data;
+  return _storeAuth(token, user_id, name, placement_done ?? true);
 }
 
 export async function register(
@@ -50,8 +59,8 @@ export async function register(
   name: string,
 ): Promise<AuthUser> {
   const res = await axios.post(`${API_BASE}/api/register`, { username, password, name });
-  const { token, user_id, name: returnedName } = res.data;
-  return _storeAuth(token, user_id, returnedName);
+  const { token, user_id, name: returnedName, placement_done } = res.data;
+  return _storeAuth(token, user_id, returnedName, placement_done ?? false);
 }
 
 export async function logout(): Promise<void> {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -9,13 +9,14 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { Disclaimer } from '../components/Disclaimer';
 import { ScoreLineChart, SessionPoint } from '../components/ScoreLineChart';
 import { PhonemeHeatmap, PhonemeEntry } from '../components/PhonemeHeatmap';
-import { getProgressSummary, getScoreHistory, getPhonemeHistory, ProgressSummary } from '../services/api';
+import { SyllableHeatmap, SyllableReport } from '../components/SyllableHeatmap';
+import { getProgressSummary, getScoreHistory, getPhonemeHistory, getSyllableReport, ProgressSummary } from '../services/api';
 import { getUser } from '../services/auth';
-import { AuthContext } from '../navigation/AppNavigator';
 import { colors } from '../theme/colors';
 import { typography } from '../theme/typography';
 import { spacing, borderRadius } from '../theme/spacing';
@@ -96,13 +97,13 @@ function DifficultyBar({ level, mastered, total }: { level: number; mastered: nu
 // ── ProgressScreen ───────────────────────────────────────────────────────────
 
 export function ProgressScreen() {
-  const navigation = useNavigation();
-  const { signOut } = useContext(AuthContext);
+  const navigation = useNavigation<StackNavigationProp<any>>();
 
   const [summary,    setSummary]    = useState<ProgressSummary | null>(null);
   const [sessions,   setSessions]   = useState<SessionPoint[]>([]);
   const [weekly,     setWeekly]     = useState<WeekDay[]>([]);
   const [phonemes,   setPhonemes]   = useState<PhonemeEntry[]>([]);
+  const [syllables,  setSyllables]  = useState<SyllableReport>({ positions: [], shapes: [], suggestions: [] });
   const [userName,   setUserName]   = useState('');
   const [loading,    setLoading]    = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -122,6 +123,14 @@ export function ProgressScreen() {
       setPhonemes(phonemeData.phonemes);
       setUserName(user?.name ?? '');
       setError(null);
+
+      // Syllable report is optional — don't let it break the whole page
+      try {
+        const syllableData = await getSyllableReport();
+        setSyllables(syllableData);
+      } catch {
+        // Silently fail — syllable section will show empty state
+      }
     } catch {
       setError('Could not load progress. Please check your connection.');
     } finally {
@@ -130,7 +139,12 @@ export function ProgressScreen() {
     }
   }, []);
 
-  useEffect(() => { fetchAll(); }, [fetchAll]);
+  useFocusEffect(
+    useCallback(() => {
+      setLoading(true);
+      fetchAll();
+    }, [fetchAll])
+  );
 
   const onRefresh = useCallback(() => { setRefreshing(true); fetchAll(); }, [fetchAll]);
 
@@ -179,15 +193,10 @@ export function ProgressScreen() {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
       >
 
-        {/* Header row with sign-out */}
+        {/* Header */}
         <View style={styles.headerRow}>
-          <View>
-            <Text style={styles.header}>Progress</Text>
-            {userName ? <Text style={styles.headerSub}>Hi, {userName}</Text> : null}
-          </View>
-          <TouchableOpacity style={styles.logoutBtn} onPress={signOut}>
-            <Text style={styles.logoutText}>Sign Out</Text>
-          </TouchableOpacity>
+          <Text style={styles.header}>Progress</Text>
+          {userName ? <Text style={styles.headerSub}>Hi, {userName}</Text> : null}
         </View>
 
         {/* Top Stats: 4 quick numbers */}
@@ -235,6 +244,14 @@ export function ProgressScreen() {
           <Text style={styles.sectionTitle}>Sound Accuracy</Text>
           <View style={styles.chartCard}>
             <PhonemeHeatmap phonemes={phonemes} />
+          </View>
+        </View>
+
+        {/* ── Syllable Heatmap ── */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Syllable Analysis</Text>
+          <View style={styles.chartCard}>
+            <SyllableHeatmap report={syllables} />
           </View>
         </View>
 
@@ -286,20 +303,23 @@ export function ProgressScreen() {
         {summary.weak_phonemes.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Focus Areas</Text>
+            <Text style={styles.focusHint}>Tap a sound to start a drill</Text>
             <View style={styles.phonemeGrid}>
               {summary.weak_phonemes.map((wp, i) => (
-                <View key={i} style={styles.phonemeChip}>
+                <TouchableOpacity
+                  key={i}
+                  style={styles.phonemeChip}
+                  onPress={() => navigation.navigate('Drill', { phoneme: wp.phoneme })}
+                  activeOpacity={0.7}
+                >
                   <Text style={styles.phonemeText}>/{wp.phoneme}/</Text>
                   <Text style={styles.phonemeScore}>{wp.avg_accuracy}%</Text>
-                </View>
+                  <Text style={styles.phonemeArrow}>›</Text>
+                </TouchableOpacity>
               ))}
             </View>
           </View>
         )}
-
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Text style={styles.backText}>Back</Text>
-        </TouchableOpacity>
 
       </ScrollView>
       <Disclaimer />
@@ -315,23 +335,11 @@ const styles = StyleSheet.create({
   scroll:    { paddingHorizontal: spacing.screenPadding, paddingBottom: spacing.xxl },
 
   headerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
     marginTop: spacing.lg,
     marginBottom: spacing.lg,
   },
   header:    { ...typography.h2, color: colors.text },
   headerSub: { ...typography.caption, color: colors.textSecondary, marginTop: 2 },
-
-  logoutBtn: {
-    paddingVertical: spacing.xs,
-    paddingHorizontal: spacing.md,
-    borderRadius: borderRadius.lg,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  logoutText: { ...typography.caption, color: colors.textSecondary },
 
   loadingText: { ...typography.body, color: colors.textSecondary, marginTop: spacing.md },
   errorText:   { ...typography.body, color: colors.error, textAlign: 'center' },
@@ -412,16 +420,9 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.xs,
     paddingHorizontal: spacing.md,
   },
+  focusHint:    { ...typography.caption, color: colors.textSecondary, marginBottom: spacing.sm },
   phonemeText:  { ...typography.body, color: colors.error, fontWeight: '600' },
   phonemeScore: { ...typography.caption, color: colors.error },
+  phonemeArrow: { fontSize: 18, color: colors.error, fontWeight: '700', marginLeft: 2 },
 
-  backButton: {
-    paddingVertical: spacing.md,
-    borderRadius: borderRadius.xl,
-    alignItems: 'center',
-    marginTop: spacing.md,
-    borderWidth: 1,
-    borderColor: colors.textSecondary,
-  },
-  backText: { ...typography.button, color: colors.textSecondary },
 });

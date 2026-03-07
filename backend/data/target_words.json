@@ -8,7 +8,15 @@
     ],
     "level": 1,
     "category": "daily",
-    "difficulty": 1
+    "difficulty": 1,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "done",
@@ -19,7 +27,15 @@
     ],
     "level": 1,
     "category": "daily",
-    "difficulty": 1
+    "difficulty": 1,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "eat",
@@ -29,7 +45,14 @@
     ],
     "level": 1,
     "category": "survival",
-    "difficulty": 1
+    "difficulty": 1,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ]
+    ]
   },
   {
     "word": "hot",
@@ -40,7 +63,15 @@
     ],
     "level": 1,
     "category": "daily",
-    "difficulty": 1
+    "difficulty": 1,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "me",
@@ -50,7 +81,14 @@
     ],
     "level": 1,
     "category": "survival",
-    "difficulty": 1
+    "difficulty": 1,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ]
+    ]
   },
   {
     "word": "mom",
@@ -61,7 +99,15 @@
     ],
     "level": 1,
     "category": "social",
-    "difficulty": 1
+    "difficulty": 1,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "up",
@@ -71,7 +117,14 @@
     ],
     "level": 1,
     "category": "daily",
-    "difficulty": 1
+    "difficulty": 1,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ]
+    ]
   },
   {
     "word": "want",
@@ -83,7 +136,16 @@
     ],
     "level": 1,
     "category": "survival",
-    "difficulty": 1
+    "difficulty": 1,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2,
+        3
+      ]
+    ]
   },
   {
     "word": "again",
@@ -95,7 +157,18 @@
     ],
     "level": 1,
     "category": "daily",
-    "difficulty": 2
+    "difficulty": 2,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0
+      ],
+      [
+        1,
+        2,
+        3
+      ]
+    ]
   },
   {
     "word": "book",
@@ -106,7 +179,15 @@
     ],
     "level": 1,
     "category": "daily",
-    "difficulty": 2
+    "difficulty": 2,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "come",
@@ -117,7 +198,15 @@
     ],
     "level": 1,
     "category": "daily",
-    "difficulty": 2
+    "difficulty": 2,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "cup",
@@ -128,7 +217,15 @@
     ],
     "level": 1,
     "category": "daily",
-    "difficulty": 2
+    "difficulty": 2,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "dad",
@@ -139,7 +236,15 @@
     ],
     "level": 1,
     "category": "social",
-    "difficulty": 2
+    "difficulty": 2,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "food",
@@ -150,7 +255,15 @@
     ],
     "level": 1,
     "category": "survival",
-    "difficulty": 2
+    "difficulty": 2,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "go",
@@ -160,7 +273,14 @@
     ],
     "level": 1,
     "category": "daily",
-    "difficulty": 2
+    "difficulty": 2,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ]
+    ]
   },
   {
     "word": "good",
@@ -171,7 +291,15 @@
     ],
     "level": 1,
     "category": "daily",
-    "difficulty": 2
+    "difficulty": 2,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "happy",
@@ -183,7 +311,18 @@
     ],
     "level": 1,
     "category": "emotional",
-    "difficulty": 2
+    "difficulty": 2,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ]
+    ]
   },
   {
     "word": "home",
@@ -194,7 +333,15 @@
     ],
     "level": 1,
     "category": "daily",
-    "difficulty": 2
+    "difficulty": 2,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "name",
@@ -205,7 +352,15 @@
     ],
     "level": 1,
     "category": "social",
-    "difficulty": 2
+    "difficulty": 2,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "no",
@@ -215,7 +370,14 @@
     ],
     "level": 1,
     "category": "survival",
-    "difficulty": 2
+    "difficulty": 2,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ]
+    ]
   },
   {
     "word": "open",
@@ -227,7 +389,18 @@
     ],
     "level": 1,
     "category": "daily",
-    "difficulty": 2
+    "difficulty": 2,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0
+      ],
+      [
+        1,
+        2,
+        3
+      ]
+    ]
   },
   {
     "word": "pain",
@@ -238,7 +411,15 @@
     ],
     "level": 1,
     "category": "medical",
-    "difficulty": 2
+    "difficulty": 2,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "today",
@@ -250,7 +431,18 @@
     ],
     "level": 1,
     "category": "daily",
-    "difficulty": 2
+    "difficulty": 2,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ]
+    ]
   },
   {
     "word": "wait",
@@ -261,7 +453,118 @@
     ],
     "level": 1,
     "category": "daily",
-    "difficulty": 2
+    "difficulty": 2,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
+  },
+  {
+    "word": "I am happy",
+    "phonemes": [
+      "ay",
+      "ae",
+      "m",
+      "hh",
+      "ae",
+      "p",
+      "iy"
+    ],
+    "level": 2,
+    "category": "emotional",
+    "difficulty": 3,
+    "type": "sentence",
+    "syllable_groups": [
+      [
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        5,
+        6
+      ]
+    ]
+  },
+  {
+    "word": "I need help",
+    "phonemes": [
+      "ay",
+      "n",
+      "iy",
+      "d",
+      "hh",
+      "eh",
+      "l",
+      "p"
+    ],
+    "level": 2,
+    "category": "survival",
+    "difficulty": 3,
+    "type": "sentence",
+    "syllable_groups": [
+      [
+        0
+      ],
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        4,
+        5,
+        6,
+        7
+      ]
+    ]
+  },
+  {
+    "word": "I want water",
+    "phonemes": [
+      "ay",
+      "w",
+      "aa",
+      "n",
+      "t",
+      "w",
+      "ao",
+      "t",
+      "er"
+    ],
+    "level": 2,
+    "category": "survival",
+    "difficulty": 3,
+    "type": "sentence",
+    "syllable_groups": [
+      [
+        0
+      ],
+      [
+        1,
+        2,
+        3,
+        4
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        7,
+        8
+      ]
+    ]
   },
   {
     "word": "always",
@@ -274,7 +577,19 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3,
+        4
+      ]
+    ]
   },
   {
     "word": "boy",
@@ -284,7 +599,14 @@
     ],
     "level": 2,
     "category": "social",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ]
+    ]
   },
   {
     "word": "bye",
@@ -294,7 +616,14 @@
     ],
     "level": 2,
     "category": "social",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ]
+    ]
   },
   {
     "word": "cold",
@@ -306,7 +635,16 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2,
+        3
+      ]
+    ]
   },
   {
     "word": "down",
@@ -317,7 +655,15 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "family",
@@ -331,7 +677,22 @@
     ],
     "level": 2,
     "category": "social",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        4,
+        5
+      ]
+    ]
   },
   {
     "word": "finger",
@@ -344,7 +705,19 @@
     ],
     "level": 2,
     "category": "medical",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ]
+    ]
   },
   {
     "word": "give",
@@ -355,7 +728,50 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
+  },
+  {
+    "word": "good morning",
+    "phonemes": [
+      "g",
+      "uh",
+      "d",
+      "m",
+      "ao",
+      "r",
+      "n",
+      "ih",
+      "ng"
+    ],
+    "level": 2,
+    "category": "social",
+    "difficulty": 3,
+    "type": "sentence",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4,
+        5
+      ],
+      [
+        6,
+        7,
+        8
+      ]
+    ]
   },
   {
     "word": "have",
@@ -366,7 +782,15 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "help",
@@ -378,7 +802,16 @@
     ],
     "level": 2,
     "category": "survival",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2,
+        3
+      ]
+    ]
   },
   {
     "word": "hi",
@@ -388,7 +821,14 @@
     ],
     "level": 2,
     "category": "social",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ]
+    ]
   },
   {
     "word": "house",
@@ -399,7 +839,15 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "love",
@@ -410,7 +858,15 @@
     ],
     "level": 2,
     "category": "emotional",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "medicine",
@@ -425,7 +881,54 @@
     ],
     "level": 2,
     "category": "medical",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3
+      ],
+      [
+        4,
+        5,
+        6
+      ]
+    ]
+  },
+  {
+    "word": "my name is",
+    "phonemes": [
+      "m",
+      "ay",
+      "n",
+      "ey",
+      "m",
+      "ih",
+      "z"
+    ],
+    "level": 2,
+    "category": "social",
+    "difficulty": 3,
+    "type": "sentence",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3,
+        4
+      ],
+      [
+        5,
+        6
+      ]
+    ]
   },
   {
     "word": "now",
@@ -435,7 +938,14 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ]
+    ]
   },
   {
     "word": "outside",
@@ -448,7 +958,19 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3,
+        4
+      ]
+    ]
   },
   {
     "word": "please",
@@ -460,7 +982,16 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2,
+        3
+      ]
+    ]
   },
   {
     "word": "read",
@@ -471,7 +1002,15 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "shoe",
@@ -481,7 +1020,14 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ]
+    ]
   },
   {
     "word": "size",
@@ -492,7 +1038,15 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "stop",
@@ -504,7 +1058,16 @@
     ],
     "level": 2,
     "category": "survival",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2,
+        3
+      ]
+    ]
   },
   {
     "word": "telephone",
@@ -519,7 +1082,70 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3
+      ],
+      [
+        4,
+        5,
+        6
+      ]
+    ]
+  },
+  {
+    "word": "thank you very much",
+    "phonemes": [
+      "th",
+      "ae",
+      "ng",
+      "k",
+      "y",
+      "uw",
+      "v",
+      "eh",
+      "r",
+      "iy",
+      "m",
+      "ah",
+      "ch"
+    ],
+    "level": 2,
+    "category": "social",
+    "difficulty": 3,
+    "type": "sentence",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2,
+        3
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        10,
+        11,
+        12
+      ]
+    ]
   },
   {
     "word": "the",
@@ -529,7 +1155,14 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ]
+    ]
   },
   {
     "word": "tired",
@@ -541,7 +1174,16 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2,
+        3
+      ]
+    ]
   },
   {
     "word": "water",
@@ -553,7 +1195,18 @@
     ],
     "level": 2,
     "category": "survival",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ]
+    ]
   },
   {
     "word": "yes",
@@ -564,7 +1217,15 @@
     ],
     "level": 2,
     "category": "survival",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "yesterday",
@@ -579,7 +1240,113 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 3
+    "difficulty": 3,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4,
+        5
+      ],
+      [
+        6
+      ]
+    ]
+  },
+  {
+    "word": "I feel much better",
+    "phonemes": [
+      "ay",
+      "f",
+      "iy",
+      "l",
+      "m",
+      "ah",
+      "ch",
+      "b",
+      "eh",
+      "t",
+      "er"
+    ],
+    "level": 2,
+    "category": "emotional",
+    "difficulty": 4,
+    "type": "sentence",
+    "syllable_groups": [
+      [
+        0
+      ],
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        4,
+        5,
+        6
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        9,
+        10
+      ]
+    ]
+  },
+  {
+    "word": "I would like some food",
+    "phonemes": [
+      "ay",
+      "w",
+      "uh",
+      "d",
+      "l",
+      "ay",
+      "k",
+      "s",
+      "ah",
+      "m",
+      "f",
+      "uw",
+      "d"
+    ],
+    "level": 2,
+    "category": "survival",
+    "difficulty": 4,
+    "type": "sentence",
+    "syllable_groups": [
+      [
+        0
+      ],
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        4,
+        5,
+        6
+      ],
+      [
+        7,
+        8,
+        9
+      ],
+      [
+        10,
+        11,
+        12
+      ]
+    ]
   },
   {
     "word": "bathroom",
@@ -593,7 +1360,20 @@
     ],
     "level": 2,
     "category": "survival",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4,
+        5
+      ]
+    ]
   },
   {
     "word": "brother",
@@ -606,7 +1386,19 @@
     ],
     "level": 2,
     "category": "social",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ]
+    ]
   },
   {
     "word": "comfortable",
@@ -624,7 +1416,26 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4,
+        5
+      ],
+      [
+        6,
+        7,
+        8,
+        9
+      ]
+    ]
   },
   {
     "word": "exercise",
@@ -639,7 +1450,23 @@
     ],
     "level": 2,
     "category": "medical",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3
+      ],
+      [
+        4,
+        5,
+        6
+      ]
+    ]
   },
   {
     "word": "finish",
@@ -652,7 +1479,60 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3,
+        4
+      ]
+    ]
+  },
+  {
+    "word": "how are you today",
+    "phonemes": [
+      "hh",
+      "aw",
+      "aa",
+      "r",
+      "y",
+      "uw",
+      "t",
+      "ah",
+      "d",
+      "ey"
+    ],
+    "level": 2,
+    "category": "social",
+    "difficulty": 4,
+    "type": "sentence",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        8,
+        9
+      ]
+    ]
   },
   {
     "word": "hungry",
@@ -666,7 +1546,20 @@
     ],
     "level": 2,
     "category": "survival",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4,
+        5
+      ]
+    ]
   },
   {
     "word": "measure",
@@ -678,7 +1571,18 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ]
+    ]
   },
   {
     "word": "more",
@@ -689,7 +1593,15 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "morning",
@@ -703,7 +1615,20 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4,
+        5
+      ]
+    ]
   },
   {
     "word": "nothing",
@@ -716,7 +1641,19 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3,
+        4
+      ]
+    ]
   },
   {
     "word": "other",
@@ -727,7 +1664,64 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0
+      ],
+      [
+        1,
+        2
+      ]
+    ]
+  },
+  {
+    "word": "please open the door",
+    "phonemes": [
+      "p",
+      "l",
+      "iy",
+      "z",
+      "ow",
+      "p",
+      "ah",
+      "n",
+      "dh",
+      "ah",
+      "d",
+      "ao",
+      "r"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4,
+    "type": "sentence",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2,
+        3
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        10,
+        11,
+        12
+      ]
+    ]
   },
   {
     "word": "remember",
@@ -742,7 +1736,23 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3,
+        4
+      ],
+      [
+        5,
+        6
+      ]
+    ]
   },
   {
     "word": "right",
@@ -753,7 +1763,15 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "shoulder",
@@ -766,7 +1784,19 @@
     ],
     "level": 2,
     "category": "medical",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ]
+    ]
   },
   {
     "word": "shower",
@@ -777,7 +1807,17 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2
+      ]
+    ]
   },
   {
     "word": "sorry",
@@ -789,7 +1829,18 @@
     ],
     "level": 2,
     "category": "emotional",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3
+      ]
+    ]
   },
   {
     "word": "television",
@@ -806,7 +1857,27 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        6,
+        7,
+        8
+      ]
+    ]
   },
   {
     "word": "thank you",
@@ -820,7 +1891,20 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2,
+        3
+      ],
+      [
+        4,
+        5
+      ]
+    ]
   },
   {
     "word": "that",
@@ -831,7 +1915,15 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "they",
@@ -841,7 +1933,14 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ]
+    ]
   },
   {
     "word": "this",
@@ -852,7 +1951,51 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
+  },
+  {
+    "word": "though",
+    "phonemes": [
+      "dh",
+      "ow"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  {
+    "word": "thought",
+    "phonemes": [
+      "th",
+      "ao",
+      "t"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "three",
@@ -863,7 +2006,34 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
+  },
+  {
+    "word": "through",
+    "phonemes": [
+      "th",
+      "r",
+      "uw"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "together",
@@ -877,7 +2047,47 @@
     ],
     "level": 2,
     "category": "social",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        4,
+        5
+      ]
+    ]
+  },
+  {
+    "word": "toy boat",
+    "phonemes": [
+      "t",
+      "oy",
+      "b",
+      "ow",
+      "t"
+    ],
+    "level": 3,
+    "category": "daily",
+    "difficulty": 4,
+    "type": "tongue_twister",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3,
+        4
+      ]
+    ]
   },
   {
     "word": "vision",
@@ -890,7 +2100,19 @@
     ],
     "level": 2,
     "category": "medical",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3,
+        4
+      ]
+    ]
   },
   {
     "word": "weather",
@@ -902,7 +2124,392 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 4
+    "difficulty": 4,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ]
+    ]
+  },
+  {
+    "word": "where is the bathroom",
+    "phonemes": [
+      "w",
+      "eh",
+      "r",
+      "ih",
+      "z",
+      "dh",
+      "ah",
+      "b",
+      "ae",
+      "th",
+      "r",
+      "uw",
+      "m"
+    ],
+    "level": 2,
+    "category": "survival",
+    "difficulty": 4,
+    "type": "sentence",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3,
+        4
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        7,
+        8,
+        9
+      ],
+      [
+        10,
+        11,
+        12
+      ]
+    ]
+  },
+  {
+    "word": "I am feeling stronger every day",
+    "phonemes": [
+      "ay",
+      "ae",
+      "m",
+      "f",
+      "iy",
+      "l",
+      "ih",
+      "ng",
+      "s",
+      "t",
+      "r",
+      "ao",
+      "ng",
+      "er",
+      "eh",
+      "v",
+      "r",
+      "iy",
+      "d",
+      "ey"
+    ],
+    "level": 3,
+    "category": "emotional",
+    "difficulty": 5,
+    "type": "sentence",
+    "syllable_groups": [
+      [
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        5,
+        6,
+        7
+      ],
+      [
+        8,
+        9,
+        10,
+        11
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        14,
+        15
+      ],
+      [
+        16,
+        17
+      ],
+      [
+        18,
+        19
+      ]
+    ]
+  },
+  {
+    "word": "I have an appointment at three",
+    "phonemes": [
+      "ay",
+      "hh",
+      "ae",
+      "v",
+      "ah",
+      "n",
+      "ah",
+      "p",
+      "oy",
+      "n",
+      "t",
+      "m",
+      "ah",
+      "n",
+      "t",
+      "ae",
+      "t",
+      "th",
+      "r",
+      "iy"
+    ],
+    "level": 3,
+    "category": "medical",
+    "difficulty": 5,
+    "type": "sentence",
+    "syllable_groups": [
+      [
+        0
+      ],
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        6
+      ],
+      [
+        7,
+        8,
+        9,
+        10
+      ],
+      [
+        11,
+        12,
+        13
+      ],
+      [
+        14,
+        15,
+        16
+      ],
+      [
+        17,
+        18,
+        19
+      ]
+    ]
+  },
+  {
+    "word": "Peter Piper picked peppers",
+    "phonemes": [
+      "p",
+      "iy",
+      "t",
+      "er",
+      "p",
+      "ay",
+      "p",
+      "er",
+      "p",
+      "ih",
+      "k",
+      "t",
+      "p",
+      "eh",
+      "p",
+      "er",
+      "z"
+    ],
+    "level": 3,
+    "category": "daily",
+    "difficulty": 5,
+    "type": "tongue_twister",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        8,
+        9,
+        10,
+        11
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        14,
+        15,
+        16
+      ]
+    ]
+  },
+  {
+    "word": "big black bug bit a big black bear",
+    "phonemes": [
+      "b",
+      "ih",
+      "g",
+      "b",
+      "l",
+      "ae",
+      "k",
+      "b",
+      "ah",
+      "g",
+      "b",
+      "ih",
+      "t",
+      "ah",
+      "b",
+      "ih",
+      "g",
+      "b",
+      "l",
+      "ae",
+      "k",
+      "b",
+      "eh",
+      "r"
+    ],
+    "level": 3,
+    "category": "daily",
+    "difficulty": 5,
+    "type": "tongue_twister",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4,
+        5,
+        6
+      ],
+      [
+        7,
+        8,
+        9
+      ],
+      [
+        10,
+        11,
+        12
+      ],
+      [
+        13
+      ],
+      [
+        14,
+        15,
+        16
+      ],
+      [
+        17,
+        18,
+        19,
+        20
+      ],
+      [
+        21,
+        22,
+        23
+      ]
+    ]
+  },
+  {
+    "word": "can you help me with this",
+    "phonemes": [
+      "k",
+      "ae",
+      "n",
+      "y",
+      "uw",
+      "hh",
+      "eh",
+      "l",
+      "p",
+      "m",
+      "iy",
+      "w",
+      "ih",
+      "dh",
+      "dh",
+      "ih",
+      "s"
+    ],
+    "level": 3,
+    "category": "survival",
+    "difficulty": 5,
+    "type": "sentence",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        5,
+        6,
+        7,
+        8
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        11,
+        12,
+        13
+      ],
+      [
+        14,
+        15,
+        16
+      ]
+    ]
   },
   {
     "word": "catch",
@@ -913,7 +2520,15 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 5
+    "difficulty": 5,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "choice",
@@ -924,7 +2539,15 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 5
+    "difficulty": 5,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "church",
@@ -935,7 +2558,15 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 5
+    "difficulty": 5,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "conversation",
@@ -953,7 +2584,28 @@
     ],
     "level": 2,
     "category": "social",
-    "difficulty": 5
+    "difficulty": 5,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        7,
+        8,
+        9
+      ]
+    ]
   },
   {
     "word": "enjoy",
@@ -965,7 +2617,69 @@
     ],
     "level": 2,
     "category": "emotional",
-    "difficulty": 5
+    "difficulty": 5,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ]
+    ]
+  },
+  {
+    "word": "fresh French fried fish",
+    "phonemes": [
+      "f",
+      "r",
+      "eh",
+      "sh",
+      "f",
+      "r",
+      "eh",
+      "n",
+      "ch",
+      "f",
+      "r",
+      "ay",
+      "d",
+      "f",
+      "ih",
+      "sh"
+    ],
+    "level": 3,
+    "category": "daily",
+    "difficulty": 5,
+    "type": "tongue_twister",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2,
+        3
+      ],
+      [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      [
+        9,
+        10,
+        11,
+        12
+      ],
+      [
+        13,
+        14,
+        15
+      ]
+    ]
   },
   {
     "word": "joy",
@@ -975,7 +2689,14 @@
     ],
     "level": 2,
     "category": "emotional",
-    "difficulty": 5
+    "difficulty": 5,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ]
+    ]
   },
   {
     "word": "judge",
@@ -986,7 +2707,15 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 5
+    "difficulty": 5,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
   },
   {
     "word": "kitchen",
@@ -999,7 +2728,19 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 5
+    "difficulty": 5,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3,
+        4
+      ]
+    ]
   },
   {
     "word": "orange",
@@ -1012,7 +2753,300 @@
     ],
     "level": 2,
     "category": "daily",
-    "difficulty": 5
+    "difficulty": 5,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3,
+        4
+      ]
+    ]
+  },
+  {
+    "word": "particularly",
+    "phonemes": [
+      "p",
+      "er",
+      "t",
+      "ih",
+      "k",
+      "y",
+      "ah",
+      "l",
+      "er",
+      "l",
+      "iy"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 5,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3,
+        4
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        9,
+        10
+      ]
+    ]
+  },
+  {
+    "word": "red lorry yellow lorry",
+    "phonemes": [
+      "r",
+      "eh",
+      "d",
+      "l",
+      "ao",
+      "r",
+      "iy",
+      "y",
+      "eh",
+      "l",
+      "ow",
+      "l",
+      "ao",
+      "r",
+      "iy"
+    ],
+    "level": 3,
+    "category": "daily",
+    "difficulty": 5,
+    "type": "tongue_twister",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        13,
+        14
+      ]
+    ]
+  },
+  {
+    "word": "rubber baby buggy bumpers",
+    "phonemes": [
+      "r",
+      "ah",
+      "b",
+      "er",
+      "b",
+      "ey",
+      "b",
+      "iy",
+      "b",
+      "ah",
+      "g",
+      "iy",
+      "b",
+      "ah",
+      "m",
+      "p",
+      "er",
+      "z"
+    ],
+    "level": 3,
+    "category": "daily",
+    "difficulty": 5,
+    "type": "tongue_twister",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        12,
+        13,
+        14
+      ],
+      [
+        15,
+        16,
+        17
+      ]
+    ]
+  },
+  {
+    "word": "schedule",
+    "phonemes": [
+      "s",
+      "k",
+      "eh",
+      "jh",
+      "uw",
+      "l"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 5,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4,
+        5
+      ]
+    ]
+  },
+  {
+    "word": "she sells seashells",
+    "phonemes": [
+      "sh",
+      "iy",
+      "s",
+      "eh",
+      "l",
+      "z",
+      "s",
+      "iy",
+      "sh",
+      "eh",
+      "l",
+      "z"
+    ],
+    "level": 3,
+    "category": "daily",
+    "difficulty": 5,
+    "type": "tongue_twister",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3,
+        4,
+        5
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        8,
+        9,
+        10,
+        11
+      ]
+    ]
+  },
+  {
+    "word": "strength",
+    "phonemes": [
+      "s",
+      "t",
+      "r",
+      "eh",
+      "ng",
+      "k",
+      "th"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 5,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    ]
+  },
+  {
+    "word": "stretch",
+    "phonemes": [
+      "s",
+      "t",
+      "r",
+      "eh",
+      "ch"
+    ],
+    "level": 2,
+    "category": "medical",
+    "difficulty": 5,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    ]
   },
   {
     "word": "teacher",
@@ -1024,6 +3058,325 @@
     ],
     "level": 2,
     "category": "social",
-    "difficulty": 5
+    "difficulty": 5,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ]
+    ]
+  },
+  {
+    "word": "the children are playing outside",
+    "phonemes": [
+      "dh",
+      "ah",
+      "ch",
+      "ih",
+      "l",
+      "d",
+      "r",
+      "ah",
+      "n",
+      "aa",
+      "r",
+      "p",
+      "l",
+      "ey",
+      "ih",
+      "ng",
+      "aw",
+      "t",
+      "s",
+      "ay",
+      "d"
+    ],
+    "level": 3,
+    "category": "daily",
+    "difficulty": 5,
+    "type": "sentence",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3,
+        4
+      ],
+      [
+        5,
+        6,
+        7,
+        8
+      ],
+      [
+        9,
+        10,
+        11
+      ],
+      [
+        12,
+        13,
+        14
+      ],
+      [
+        15,
+        16
+      ],
+      [
+        17,
+        18,
+        19,
+        20
+      ]
+    ]
+  },
+  {
+    "word": "the weather is beautiful today",
+    "phonemes": [
+      "dh",
+      "ah",
+      "w",
+      "eh",
+      "dh",
+      "er",
+      "ih",
+      "z",
+      "b",
+      "y",
+      "uw",
+      "t",
+      "ah",
+      "f",
+      "ah",
+      "l",
+      "t",
+      "ah",
+      "d",
+      "ey"
+    ],
+    "level": 3,
+    "category": "daily",
+    "difficulty": 5,
+    "type": "sentence",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        8,
+        9,
+        10
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        13,
+        14,
+        15
+      ],
+      [
+        16,
+        17
+      ],
+      [
+        18,
+        19
+      ]
+    ]
+  },
+  {
+    "word": "thin sticks thick bricks",
+    "phonemes": [
+      "th",
+      "ih",
+      "n",
+      "s",
+      "t",
+      "ih",
+      "k",
+      "s",
+      "th",
+      "ih",
+      "k",
+      "b",
+      "r",
+      "ih",
+      "k",
+      "s"
+    ],
+    "level": 3,
+    "category": "daily",
+    "difficulty": 5,
+    "type": "tongue_twister",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      [
+        8,
+        9,
+        10
+      ],
+      [
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    ]
+  },
+  {
+    "word": "unique New York",
+    "phonemes": [
+      "y",
+      "uw",
+      "n",
+      "iy",
+      "k",
+      "n",
+      "uw",
+      "y",
+      "ao",
+      "r",
+      "k"
+    ],
+    "level": 3,
+    "category": "daily",
+    "difficulty": 5,
+    "type": "tongue_twister",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3,
+        4
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        7,
+        8,
+        9,
+        10
+      ]
+    ]
+  },
+  {
+    "word": "vocabulary",
+    "phonemes": [
+      "v",
+      "ow",
+      "k",
+      "ae",
+      "b",
+      "y",
+      "ah",
+      "l",
+      "eh",
+      "r",
+      "iy"
+    ],
+    "level": 2,
+    "category": "daily",
+    "difficulty": 5,
+    "type": "word",
+    "syllable_groups": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3,
+        4
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        9,
+        10
+      ]
+    ]
+  },
+  {
+    "word": "which wristwatch",
+    "phonemes": [
+      "w",
+      "ih",
+      "ch",
+      "r",
+      "ih",
+      "s",
+      "t",
+      "w",
+      "aa",
+      "ch"
+    ],
+    "level": 3,
+    "category": "daily",
+    "difficulty": 5,
+    "type": "tongue_twister",
+    "syllable_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4,
+        5,
+        6
+      ],
+      [
+        7,
+        8,
+        9
+      ]
+    ]
   }
 ]

@@ -5,9 +5,10 @@ All endpoints require a valid Bearer token (Authorization header).
 user_id is extracted from the token via get_current_user dependency.
 
 Endpoints:
-  GET  /api/progress                    overall progress summary
-  GET  /api/progress/history?days=30    session score history + weekly activity
-  GET  /api/progress/phoneme-history    per-phoneme accuracy + trends
+  GET  /api/progress                       overall progress summary
+  GET  /api/progress/history?days=30       session score history + weekly activity
+  GET  /api/progress/phoneme-history       per-phoneme accuracy + trends
+  GET  /api/progress/syllable-report       syllable position/shape heatmap + suggestions
   GET  /api/next-words                  HLR-selected words for next session
   GET  /api/next-phrase                 HLR-selected phrase for melody practice
   POST /api/record-word                 record word practice result
@@ -33,10 +34,14 @@ from services.learning_engine import (
     get_progress_summary,
     get_progress_history,
     get_phoneme_history,
+    get_syllable_report,
     get_word_details,
     reset_progress,
     get_daily_missions,
     get_all_words_by_difficulty,
+    get_placement_words,
+    apply_placement_result,
+    get_drill_words,
 )
 
 router = APIRouter()
@@ -61,6 +66,11 @@ class RecordSessionRequest(BaseModel):
     duration_s: float = 0
 
 
+class PlacementResultRequest(BaseModel):
+    scores: dict[str, int]                              # {"bed": 85, "hot": 90, ...}
+    phoneme_data: Optional[dict[str, list[dict]]] = None # {"bed": [{phoneme, accuracy}, ...], ...}
+
+
 # ── Endpoints ─────────────────────────────────────────────────────────────────
 
 @router.get("/api/progress")
@@ -78,6 +88,12 @@ def progress_history(days: int = 30, user_id: int = Depends(get_current_user)):
 def phoneme_history(user_id: int = Depends(get_current_user)):
     """Per-phoneme accuracy averages and trends for the heatmap."""
     return get_phoneme_history(user_id)
+
+
+@router.get("/api/progress/syllable-report")
+def syllable_report(user_id: int = Depends(get_current_user)):
+    """Syllable position/shape accuracy heatmap + actionable focus suggestions."""
+    return get_syllable_report(user_id)
 
 
 @router.get("/api/next-words")
@@ -134,3 +150,30 @@ def missions(user_id: int = Depends(get_current_user)):
 @router.get("/api/challenge-words")
 def challenge_words(user_id: int = Depends(get_current_user)):
     return get_all_words_by_difficulty(user_id)
+
+
+# ── Phoneme Drill ─────────────────────────────────────────────────────────────
+
+@router.get("/api/drill-words")
+def drill_words(phoneme: str, count: int = 5, user_id: int = Depends(get_current_user)):
+    """Return unlocked words containing the target phoneme for drill practice."""
+    words = get_drill_words(phoneme, count, user_id)
+    return {"words": words}
+
+
+# ── Placement Test ────────────────────────────────────────────────────────────
+
+@router.get("/api/placement-words")
+def placement_words(user_id: int = Depends(get_current_user)):
+    """Return the fixed set of words used for the placement test."""
+    return {"words": get_placement_words()}
+
+
+@router.post("/api/placement-result")
+def placement_result(req: PlacementResultRequest, user_id: int = Depends(get_current_user)):
+    """Process placement test results: determine starting difficulty and init progress."""
+    starting_difficulty = apply_placement_result(user_id, req.scores, req.phoneme_data)
+    return {
+        "status": "ok",
+        "starting_difficulty": starting_difficulty,
+    }

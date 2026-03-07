@@ -58,6 +58,13 @@ interface DisplayPoint {
 
 const RECORD_SECONDS = 5;
 
+function getScoreColor(score: number): string {
+  if (score >= 80) return colors.success;
+  if (score >= 60) return '#FFC107';  // yellow
+  if (score >= 40) return colors.warning;
+  return colors.error;
+}
+
 // ─── Melody Visualiser ───────────────────────────────────────────────────────
 
 interface MelodyLineProps {
@@ -427,7 +434,7 @@ export function MITScreen() {
             ) : (
               <>
                 <View style={styles.scoreCard}>
-                  <Text style={styles.scoreValue}>
+                  <Text style={[styles.scoreValue, pitchResult && { color: getScoreColor(pitchResult.alignment_score) }]}>
                     {pitchResult ? `${Math.round(pitchResult.alignment_score)}%` : '--'}
                   </Text>
                   <Text style={styles.scoreLabel}>Pitch Alignment</Text>

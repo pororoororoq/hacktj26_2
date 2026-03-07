@@ -11,9 +11,10 @@ interface Props {
 }
 
 function getBarColor(accuracy: number): string {
-  if (accuracy >= 70) return colors.phonemeOk;
-  if (accuracy >= 50) return colors.phonemeMid;
-  return colors.phonemeWeak;
+  if (accuracy >= 80) return colors.phonemeOk;     // green
+  if (accuracy >= 60) return colors.warningYellow;  // yellow
+  if (accuracy >= 40) return colors.phonemeMid;     // orange
+  return colors.phonemeWeak;                        // red
 }
 
 function PhonemeBar({ result }: { result: PhonemeResult }) {

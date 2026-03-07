@@ -11,9 +11,10 @@ interface Props {
 }
 
 function getScoreColor(score: number): string {
-  if (score >= 80) return colors.success;
-  if (score >= 60) return colors.warning;
-  return colors.primary; // coral for low scores
+  if (score >= 80) return colors.success;       // green
+  if (score >= 60) return colors.warningYellow;  // yellow
+  if (score >= 40) return colors.warning;        // orange
+  return colors.error;                           // red
 }
 
 export function ScoreDisplay({ score, label = 'Overall Score', size = 120 }: Props) {
