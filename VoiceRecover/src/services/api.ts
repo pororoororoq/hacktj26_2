@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { AssessmentResponse, PitchAnalysisResponse } from '../types';
+import { getToken } from './auth';
 
 // Toggle for demo insurance -- set to true if backend is unreachable
 const USE_MOCK = false;
@@ -10,6 +11,16 @@ const API_BASE = 'http://10.180.0.182:8000';
 const api = axios.create({
   baseURL: API_BASE,
   timeout: 60000,
+});
+
+// Attach Bearer token to every request automatically
+api.interceptors.request.use(async config => {
+  const token = await getToken();
+  if (token) {
+    config.headers = config.headers ?? {};
+    (config.headers as any).Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 // Mock responses for demo insurance
@@ -255,5 +266,51 @@ export interface ChallengeData {
 
 export async function getChallengeWords(): Promise<ChallengeData> {
   const response = await api.get<ChallengeData>('/api/challenge-words');
+  return response.data;
+}
+
+// ── Progress History (for charts) ───────────────────────────────────────────
+
+export interface ScoreHistorySession {
+  date:       string;
+  timestamp:  number;
+  type:       'assessment' | 'melody';
+  avg_score:  number;
+  duration_s: number;
+  word_count: number;
+}
+
+export interface WeeklyDay {
+  date:  string;
+  label: string;
+  count: number;
+}
+
+export interface ScoreHistoryResponse {
+  sessions: ScoreHistorySession[];
+  weekly:   WeeklyDay[];
+}
+
+export interface PhonemeHistoryEntry {
+  phoneme:      string;
+  avg_accuracy: number;
+  scores:       number[];
+  trend:        'improving' | 'stable' | 'declining';
+  count:        number;
+}
+
+export interface PhonemeHistoryResponse {
+  phonemes: PhonemeHistoryEntry[];
+}
+
+export async function getScoreHistory(days: number = 30): Promise<ScoreHistoryResponse> {
+  const response = await api.get<ScoreHistoryResponse>('/api/progress/history', {
+    params: { days },
+  });
+  return response.data;
+}
+
+export async function getPhonemeHistory(): Promise<PhonemeHistoryResponse> {
+  const response = await api.get<PhonemeHistoryResponse>('/api/progress/phoneme-history');
   return response.data;
 }
