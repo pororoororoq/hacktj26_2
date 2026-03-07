@@ -883,6 +883,173 @@ def _refresh_mission_status(missions: list[dict], progress: dict) -> list[dict]:
     return missions
 
 
+# ── Syllable analysis ────────────────────────────────────────────────────────
+
+# All vowel phonemes (ARPABET) — these are syllable nuclei
+_VOWELS = frozenset({"aa","ae","ah","ao","aw","ay","eh","er","ey","ih","iy","ow","oy","uh","uw"})
+
+_SHAPE_LABELS: dict[str, str] = {
+    "V":    "Vowel only (V)",
+    "VC":   "Vowel-start (VC)",
+    "CV":   "Open (CV)",
+    "CVC":  "Closed (CVC)",
+    "CCVC": "Cluster onset (CCVC)",
+    "CVCC": "Complex coda (CVCC)",
+    "CCVCC":"Full cluster (CCVCC)",
+}
+
+
+def _cv_shape(phonemes: list[str]) -> str:
+    """Return the CV string for a syllable (e.g. 'CVC', 'CV', 'CCVC')."""
+    return "".join("V" if ph in _VOWELS else "C" for ph in phonemes)
+
+
+def get_syllable_report(user_id: int = 0) -> dict:
+    """
+    Analyse per-syllable accuracy from recorded phoneme scores.
+
+    Returns:
+      positions   – accuracy per syllable position (initial / medial / final)
+      shapes      – accuracy per CV shape (CVC, CV, CCVC, …)
+      suggestions – actionable focus areas with example words to practise
+    """
+    progress   = _load_progress(user_id)
+    words_data = _load_words()
+    word_lookup = {w["word"]: w for w in words_data}
+
+    position_data: dict[str, list[float]] = {"initial": [], "medial": [], "final": []}
+    shape_data:    dict[str, list[float]] = {}
+
+    # words per position where syllable avg < 70 (for focus suggestions)
+    weak_by_pos: dict[str, list[tuple[str, float]]] = {"initial": [], "medial": [], "final": []}
+
+    for word, state in progress["words"].items():
+        if state["times_practiced"] == 0:
+            continue
+        w_data         = word_lookup.get(word, {})
+        phonemes_list  = w_data.get("phonemes", [])
+        syl_groups     = w_data.get("syllable_groups", [])
+        ph_scores      = state.get("phoneme_scores", {})
+
+        if not syl_groups or not ph_scores:
+            continue
+
+        n = len(syl_groups)
+
+        for syl_idx, indices in enumerate(syl_groups):
+            syl_ph = [phonemes_list[i] for i in indices if i < len(phonemes_list)]
+
+            # Gather all recorded scores for this syllable's phonemes
+            scores: list[float] = []
+            for ph in syl_ph:
+                if ph in ph_scores:
+                    scores.extend(ph_scores[ph])
+
+            if not scores:
+                continue
+
+            avg = sum(scores) / len(scores)
+
+            # Position classification
+            if n == 1:
+                pos = "initial"
+            elif syl_idx == 0:
+                pos = "initial"
+            elif syl_idx == n - 1:
+                pos = "final"
+            else:
+                pos = "medial"
+
+            position_data[pos].append(avg)
+            if avg < 70:
+                weak_by_pos[pos].append((word, avg))
+
+            # CV shape
+            shape = _cv_shape(syl_ph)
+            if shape not in shape_data:
+                shape_data[shape] = []
+            shape_data[shape].append(avg)
+
+    # ── Build positions list ─────────────────────────────────────────────────
+    positions = []
+    for pos in ("initial", "medial", "final"):
+        sc = position_data[pos]
+        if sc:
+            positions.append({
+                "position":     pos,
+                "avg_accuracy": round(sum(sc) / len(sc)),
+                "count":        len(sc),
+            })
+
+    # ── Build shapes list ────────────────────────────────────────────────────
+    shapes = []
+    for shape, sc in shape_data.items():
+        shapes.append({
+            "shape":        shape,
+            "label":        _SHAPE_LABELS.get(shape, shape),
+            "avg_accuracy": round(sum(sc) / len(sc)),
+            "count":        len(sc),
+        })
+    shapes.sort(key=lambda x: x["avg_accuracy"])
+
+    # ── Focus suggestions ────────────────────────────────────────────────────
+    suggestions = []
+
+    # Suggestion 1 – weakest syllable position
+    scored_pos = [
+        (pos, round(sum(sc) / len(sc)))
+        for pos, sc in position_data.items()
+        if sc and sum(sc) / len(sc) < 75
+    ]
+    scored_pos.sort(key=lambda x: x[1])
+    if scored_pos:
+        pos, avg = scored_pos[0]
+        pos_display = {"initial": "first syllable", "medial": "middle syllable", "final": "last syllable"}
+        focus_words = sorted(weak_by_pos[pos], key=lambda x: x[1])[:4]
+        if focus_words:
+            suggestions.append({
+                "type":        "position",
+                "title":       f"Strengthen your {pos_display[pos]}",
+                "description": (
+                    f"You score {avg}% on {pos_display[pos]} sounds — "
+                    f"your weakest position. Practise these words:"
+                ),
+                "words": [w for w, _ in focus_words],
+            })
+
+    # Suggestion 2 – weakest syllable shape
+    weak_shapes = [s for s in shapes if s["avg_accuracy"] < 70]
+    if weak_shapes:
+        ws = weak_shapes[0]
+        # Find words that contain this shape and have been attempted
+        shape_words: list[str] = []
+        for word, state in progress["words"].items():
+            if state["times_practiced"] == 0:
+                continue
+            w_data        = word_lookup.get(word, {})
+            phonemes_list = w_data.get("phonemes", [])
+            for indices in w_data.get("syllable_groups", []):
+                syl_ph = [phonemes_list[i] for i in indices if i < len(phonemes_list)]
+                if _cv_shape(syl_ph) == ws["shape"] and word not in shape_words:
+                    shape_words.append(word)
+        if shape_words:
+            suggestions.append({
+                "type":        "shape",
+                "title":       f"Practise {ws['label']} syllables",
+                "description": (
+                    f"Syllables with this pattern average {ws['avg_accuracy']}%. "
+                    "Try these words to build confidence:"
+                ),
+                "words": shape_words[:4],
+            })
+
+    return {
+        "positions":   positions,
+        "shapes":      shapes,
+        "suggestions": suggestions,
+    }
+
+
 # ── Challenge Mode ────────────────────────────────────────────────────────────
 
 def get_all_words_by_difficulty(user_id: int = 0) -> dict[str, Any]:

@@ -5,9 +5,10 @@ All endpoints require a valid Bearer token (Authorization header).
 user_id is extracted from the token via get_current_user dependency.
 
 Endpoints:
-  GET  /api/progress                    overall progress summary
-  GET  /api/progress/history?days=30    session score history + weekly activity
-  GET  /api/progress/phoneme-history    per-phoneme accuracy + trends
+  GET  /api/progress                       overall progress summary
+  GET  /api/progress/history?days=30       session score history + weekly activity
+  GET  /api/progress/phoneme-history       per-phoneme accuracy + trends
+  GET  /api/progress/syllable-report       syllable position/shape heatmap + suggestions
   GET  /api/next-words                  HLR-selected words for next session
   GET  /api/next-phrase                 HLR-selected phrase for melody practice
   POST /api/record-word                 record word practice result
@@ -33,6 +34,7 @@ from services.learning_engine import (
     get_progress_summary,
     get_progress_history,
     get_phoneme_history,
+    get_syllable_report,
     get_word_details,
     reset_progress,
     get_daily_missions,
@@ -78,6 +80,12 @@ def progress_history(days: int = 30, user_id: int = Depends(get_current_user)):
 def phoneme_history(user_id: int = Depends(get_current_user)):
     """Per-phoneme accuracy averages and trends for the heatmap."""
     return get_phoneme_history(user_id)
+
+
+@router.get("/api/progress/syllable-report")
+def syllable_report(user_id: int = Depends(get_current_user)):
+    """Syllable position/shape accuracy heatmap + actionable focus suggestions."""
+    return get_syllable_report(user_id)
 
 
 @router.get("/api/next-words")

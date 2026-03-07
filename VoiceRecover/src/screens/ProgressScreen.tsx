@@ -13,7 +13,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Disclaimer } from '../components/Disclaimer';
 import { ScoreLineChart, SessionPoint } from '../components/ScoreLineChart';
 import { PhonemeHeatmap, PhonemeEntry } from '../components/PhonemeHeatmap';
-import { getProgressSummary, getScoreHistory, getPhonemeHistory, ProgressSummary } from '../services/api';
+import { SyllableHeatmap, SyllableReport } from '../components/SyllableHeatmap';
+import { getProgressSummary, getScoreHistory, getPhonemeHistory, getSyllableReport, ProgressSummary } from '../services/api';
 import { getUser } from '../services/auth';
 import { AuthContext } from '../navigation/AppNavigator';
 import { colors } from '../theme/colors';
@@ -103,6 +104,7 @@ export function ProgressScreen() {
   const [sessions,   setSessions]   = useState<SessionPoint[]>([]);
   const [weekly,     setWeekly]     = useState<WeekDay[]>([]);
   const [phonemes,   setPhonemes]   = useState<PhonemeEntry[]>([]);
+  const [syllables,  setSyllables]  = useState<SyllableReport>({ positions: [], shapes: [], suggestions: [] });
   const [userName,   setUserName]   = useState('');
   const [loading,    setLoading]    = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -110,16 +112,18 @@ export function ProgressScreen() {
 
   const fetchAll = useCallback(async () => {
     try {
-      const [summaryData, historyData, phonemeData, user] = await Promise.all([
+      const [summaryData, historyData, phonemeData, syllableData, user] = await Promise.all([
         getProgressSummary(),
         getScoreHistory(30),
         getPhonemeHistory(),
+        getSyllableReport(),
         getUser(),
       ]);
       setSummary(summaryData);
       setSessions(historyData.sessions);
       setWeekly(historyData.weekly);
       setPhonemes(phonemeData.phonemes);
+      setSyllables(syllableData);
       setUserName(user?.name ?? '');
       setError(null);
     } catch {
@@ -235,6 +239,14 @@ export function ProgressScreen() {
           <Text style={styles.sectionTitle}>Sound Accuracy</Text>
           <View style={styles.chartCard}>
             <PhonemeHeatmap phonemes={phonemes} />
+          </View>
+        </View>
+
+        {/* ── Syllable Heatmap ── */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Syllable Analysis</Text>
+          <View style={styles.chartCard}>
+            <SyllableHeatmap report={syllables} />
           </View>
         </View>
 

@@ -314,3 +314,36 @@ export async function getPhonemeHistory(): Promise<PhonemeHistoryResponse> {
   const response = await api.get<PhonemeHistoryResponse>('/api/progress/phoneme-history');
   return response.data;
 }
+
+// ── Syllable report ──────────────────────────────────────────────────────────
+
+export interface SyllablePositionData {
+  position:     'initial' | 'medial' | 'final';
+  avg_accuracy: number;
+  count:        number;
+}
+
+export interface SyllableShapeData {
+  shape:        string;
+  label:        string;
+  avg_accuracy: number;
+  count:        number;
+}
+
+export interface SyllableSuggestionData {
+  type:        string;
+  title:       string;
+  description: string;
+  words:       string[];
+}
+
+export interface SyllableReportResponse {
+  positions:   SyllablePositionData[];
+  shapes:      SyllableShapeData[];
+  suggestions: SyllableSuggestionData[];
+}
+
+export async function getSyllableReport(): Promise<SyllableReportResponse> {
+  const response = await api.get<SyllableReportResponse>('/api/progress/syllable-report');
+  return response.data;
+}
