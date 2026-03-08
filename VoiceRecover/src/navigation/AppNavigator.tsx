@@ -1,7 +1,17 @@
-import React, { createContext, useEffect, useState } from 'react';
-import { Animated, Easing, View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import React, { createContext, useEffect, useRef, useState } from 'react';
+import {
+  Animated,
+  Easing,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  useWindowDimensions,
+} from 'react-native';
+import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { WelcomeScreen }    from '../screens/WelcomeScreen';
 import { AssessmentScreen } from '../screens/AssessmentScreen';
@@ -18,9 +28,8 @@ import { DrillScreen }      from '../screens/DrillScreen';
 
 import { isLoggedIn, logout, getUser } from '../services/auth';
 import { colors } from '../theme/colors';
-import { typography } from '../theme/typography';
 
-// ── Auth context shared across the app ───────────────────────────────────────
+// ── Auth context ─────────────────────────────────────────────────────────────
 
 interface AuthContextType {
   signIn:  () => void;
@@ -60,25 +69,16 @@ export type RootStackParamList = {
   Drill:     { phoneme: string };
 };
 
-// ── Navigators ───────────────────────────────────────────────────────────────
+// ── Navigators ────────────────────────────────────────────────────────────────
 
-const AuthStack = createStackNavigator();
-const HomeStack = createStackNavigator();
+const AuthStack     = createStackNavigator();
+const HomeStack     = createStackNavigator();
 const ExerciseStack = createStackNavigator();
-const StatsStack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+const StatsStack    = createStackNavigator();
+const Tab           = createBottomTabNavigator();
 
-// ── Tab icon component ──────────────────────────────────────────────────────
+// ── Shared screen transition ──────────────────────────────────────────────────
 
-function TabIcon({ emoji, focused }: { emoji: string; focused: boolean }) {
-  return (
-    <Text style={{ fontSize: 22, opacity: focused ? 1 : 0.5 }}>{emoji}</Text>
-  );
-}
-
-// ── Home Tab (Welcome + Challenge) ──────────────────────────────────────────
-
-// Shared smooth transition for all inner stacks
 const STACK_TRANSITION = {
   headerShown: false,
   cardStyleInterpolator: ({ current }: any) => ({
@@ -99,124 +99,181 @@ const STACK_TRANSITION = {
   },
 };
 
+// ── Stack sub-navigators ──────────────────────────────────────────────────────
+
 function HomeStackScreen() {
   return (
     <HomeStack.Navigator screenOptions={STACK_TRANSITION}>
-      <HomeStack.Screen name="Welcome" component={WelcomeScreen} />
+      <HomeStack.Screen name="Welcome"   component={WelcomeScreen} />
       <HomeStack.Screen name="Challenge" component={ChallengeScreen} />
     </HomeStack.Navigator>
   );
 }
 
-// ── Exercise Tab (Assessment → MIT → Results) ───────────────────────────────
-
 function ExerciseStackScreen() {
   return (
     <ExerciseStack.Navigator screenOptions={STACK_TRANSITION}>
       <ExerciseStack.Screen name="Assessment" component={AssessmentScreen} />
-      <ExerciseStack.Screen name="MIT" component={MITScreen} />
-      <ExerciseStack.Screen name="Results" component={ResultsScreen} />
+      <ExerciseStack.Screen name="MIT"        component={MITScreen} />
+      <ExerciseStack.Screen name="Results"    component={ResultsScreen} />
     </ExerciseStack.Navigator>
   );
 }
-
-// ── Stats Tab (Progress + Drill) ─────────────────────────────────────────────
 
 function StatsStackScreen() {
   return (
     <StatsStack.Navigator screenOptions={STACK_TRANSITION}>
       <StatsStack.Screen name="Progress" component={ProgressScreen} />
-      <StatsStack.Screen name="Drill" component={DrillScreen} />
+      <StatsStack.Screen name="Drill"    component={DrillScreen} />
     </StatsStack.Navigator>
   );
 }
 
-// ── Main Tab Navigator ──────────────────────────────────────────────────────
+// ── Custom floating tab bar ───────────────────────────────────────────────────
+
+const TAB_ITEMS = [
+  { key: 'HomeTab',     label: 'Home',     icon: '\uD83C\uDFE0' },
+  { key: 'ExerciseTab', label: 'Practice', icon: '\uD83C\uDFA4' },
+  { key: 'StatsTab',    label: 'Stats',    icon: '\uD83D\uDCCA' },
+  { key: 'ProfileTab',  label: 'Profile',  icon: '\uD83D\uDC64' },
+  { key: 'AboutTab',    label: 'About',    icon: '\u2139\uFE0F' },
+];
+
+function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
+  const { width } = useWindowDimensions();
+  const tabWidth   = (width - 32) / TAB_ITEMS.length; // 32 = 16 side margins × 2
+  const activeIndex = state.index;
+
+  // Animated pill x-position
+  const pillX = useRef(new Animated.Value(activeIndex * tabWidth)).current;
+
+  useEffect(() => {
+    Animated.spring(pillX, {
+      toValue: activeIndex * tabWidth,
+      friction: 8,
+      tension: 180,
+      useNativeDriver: true,
+    }).start();
+  }, [activeIndex, tabWidth]);
+
+  return (
+    <View style={tabBarStyles.wrapper}>
+      <View style={tabBarStyles.bar}>
+        {/* Sliding pill highlight */}
+        <Animated.View
+          style={[
+            tabBarStyles.pill,
+            {
+              width:     tabWidth - 12,
+              transform: [{ translateX: pillX }],
+              left:      6,
+            },
+          ]}
+        />
+
+        {TAB_ITEMS.map((item, index) => {
+          const focused = state.index === index;
+          const scaleAnim = useRef(new Animated.Value(1)).current;
+
+          const onPress = () => {
+            Animated.sequence([
+              Animated.timing(scaleAnim, { toValue: 0.88, duration: 90, useNativeDriver: true, easing: Easing.out(Easing.quad) }),
+              Animated.spring(scaleAnim, { toValue: 1, friction: 6, tension: 200, useNativeDriver: true }),
+            ]).start();
+
+            const event = navigation.emit({ type: 'tabPress', target: state.routes[index].key, canPreventDefault: true });
+            if (!focused && !event.defaultPrevented) {
+              navigation.navigate(state.routes[index].name);
+            }
+          };
+
+          return (
+            <Pressable
+              key={item.key}
+              onPress={onPress}
+              style={[tabBarStyles.tab, { width: tabWidth }]}
+              android_ripple={null}
+            >
+              <Animated.View style={[tabBarStyles.tabInner, { transform: [{ scale: scaleAnim }] }]}>
+                <Text style={[tabBarStyles.icon, focused && tabBarStyles.iconFocused]}>
+                  {item.icon}
+                </Text>
+                <Text style={[tabBarStyles.label, focused && tabBarStyles.labelFocused]}>
+                  {item.label}
+                </Text>
+              </Animated.View>
+            </Pressable>
+          );
+        })}
+      </View>
+    </View>
+  );
+}
+
+const tabBarStyles = StyleSheet.create({
+  wrapper: {
+    position: 'absolute',
+    bottom: Platform.OS === 'ios' ? 20 : 14,
+    left: 16,
+    right: 16,
+    // no height — let content define it
+  },
+  bar: {
+    flexDirection: 'row',
+    backgroundColor: colors.surface,
+    borderRadius: 32,
+    paddingVertical: 6,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.14,
+    shadowRadius: 20,
+    elevation: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+    position: 'relative',
+  },
+  pill: {
+    position: 'absolute',
+    top: 6,
+    bottom: 6,
+    backgroundColor: colors.primary + '18', // 10% opacity
+    borderRadius: 24,
+  },
+  tab: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 6,
+  },
+  tabInner: { alignItems: 'center', gap: 2 },
+  icon:       { fontSize: 20, opacity: 0.4 },
+  iconFocused: { opacity: 1 },
+  label:       { fontSize: 10, fontWeight: '500', color: colors.textSecondary },
+  labelFocused: { color: colors.primary, fontWeight: '700' },
+});
+
+// ── Main Tab Navigator ────────────────────────────────────────────────────────
 
 function MainTabs() {
   return (
     <Tab.Navigator
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.textSecondary,
-        tabBarStyle: tabStyles.tabBar,
-        tabBarLabelStyle: tabStyles.tabLabel,
-      }}
+      tabBar={(props) => <CustomTabBar {...props} />}
+      screenOptions={{ headerShown: false }}
     >
-      <Tab.Screen
-        name="HomeTab"
-        component={HomeStackScreen}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="🏠" focused={focused} />,
-        }}
-      />
-      <Tab.Screen
-        name="ExerciseTab"
-        component={ExerciseStackScreen}
-        options={{
-          tabBarLabel: 'Exercise',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="🎤" focused={focused} />,
-        }}
-      />
-      <Tab.Screen
-        name="StatsTab"
-        component={StatsStackScreen}
-        options={{
-          tabBarLabel: 'Stats',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="📊" focused={focused} />,
-        }}
-      />
-      <Tab.Screen
-        name="ProfileTab"
-        component={ProfileScreen}
-        options={{
-          tabBarLabel: 'Profile',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="👤" focused={focused} />,
-        }}
-      />
-      <Tab.Screen
-        name="AboutTab"
-        component={AboutScreen}
-        options={{
-          tabBarLabel: 'About',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="ℹ️" focused={focused} />,
-        }}
-      />
+      <Tab.Screen name="HomeTab"     component={HomeStackScreen} />
+      <Tab.Screen name="ExerciseTab" component={ExerciseStackScreen} />
+      <Tab.Screen name="StatsTab"    component={StatsStackScreen} />
+      <Tab.Screen name="ProfileTab"  component={ProfileScreen} />
+      <Tab.Screen name="AboutTab"    component={AboutScreen} />
     </Tab.Navigator>
   );
 }
 
-// ── Tab bar styles ──────────────────────────────────────────────────────────
-
-const tabStyles = StyleSheet.create({
-  tabBar: {
-    backgroundColor: colors.surface,
-    borderTopColor: colors.border,
-    borderTopWidth: 1,
-    paddingTop: 6,
-    paddingBottom: 8,
-    height: 60,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-  tabLabel: {
-    fontSize: 10,
-    fontWeight: '600',
-    marginTop: 2,
-  },
-});
-
-// ── Root Navigator ──────────────────────────────────────────────────────────
+// ── Root Navigator ─────────────────────────────────────────────────────────────
 
 export function AppNavigator() {
-  const [authChecked,    setAuthChecked]    = useState(false);
-  const [loggedIn,       setLoggedIn]       = useState(false);
-  const [placementDone,  setPlacementDone]  = useState(false);
+  const [authChecked,   setAuthChecked]   = useState(false);
+  const [loggedIn,      setLoggedIn]      = useState(false);
+  const [placementDone, setPlacementDone] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -233,17 +290,15 @@ export function AppNavigator() {
   const authContext: AuthContextType = {
     signIn: async () => {
       setLoggedIn(true);
-      // Check placement status from stored user data
       const user = await getUser();
       setPlacementDone(user?.placement_done ?? false);
     },
     signOut: () => { logout(); setLoggedIn(false); setPlacementDone(false); },
   };
 
-  // Splash / loading state while AsyncStorage is read
   if (!authChecked) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
+      <View style={rootStyles.splash}>
         <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
@@ -279,10 +334,19 @@ export function AppNavigator() {
             },
           }}
         >
-          <AuthStack.Screen name="Login" component={LoginScreen} />
+          <AuthStack.Screen name="Login"    component={LoginScreen} />
           <AuthStack.Screen name="Register" component={RegisterScreen} />
         </AuthStack.Navigator>
       )}
     </AuthContext.Provider>
   );
 }
+
+const rootStyles = StyleSheet.create({
+  splash: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.background,
+  },
+});

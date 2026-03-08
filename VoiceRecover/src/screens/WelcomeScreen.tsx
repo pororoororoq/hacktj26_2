@@ -212,7 +212,7 @@ export function WelcomeScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
-  scroll: { paddingHorizontal: spacing.screenPadding, paddingBottom: spacing.xxl },
+  scroll: { paddingHorizontal: spacing.screenPadding, paddingBottom: 100 },
 
   // Hero
   heroSection: { alignItems: 'center', marginTop: spacing.xl, marginBottom: spacing.lg },
