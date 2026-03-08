@@ -158,11 +158,48 @@ def _map_alignment_to_expected(alignment: list, expected_phonemes: list, target_
     return result_scores
 
 
+def _audio_has_speech(audio: np.ndarray, sr: int = 16000, threshold_db: float = -40.0) -> bool:
+    """Check if audio contains enough energy to be actual speech.
+
+    Returns False for silence / near-silence recordings.
+    """
+    if len(audio) < sr * 0.3:  # less than 0.3s
+        return False
+    # RMS energy in dB
+    rms = np.sqrt(np.mean(audio ** 2))
+    if rms < 1e-6:
+        return False
+    db = 20 * np.log10(rms)
+    return db > threshold_db
+
+
+def _is_multi_word(text: str) -> bool:
+    """Check if the target is a sentence/phrase (multiple words)."""
+    return len(text.split()) > 1
+
+
+def _phrase_to_phonemes(phrase: str) -> list:
+    """Convert a multi-word phrase to ARPABET phonemes, word by word."""
+    phonemes = []
+    for w in phrase.split():
+        w = w.strip()
+        if w:
+            phonemes.extend(_word_to_phonemes(w))
+    return phonemes
+
+
 def analyze_phonemes(audio_path: str, word: str, expected_phonemes: list) -> dict:
     """Analyze pronunciation using Whisper AI + g2p phoneme comparison."""
     try:
         audio = _load_audio(audio_path)
         target = word.lower().strip()
+        is_phrase = _is_multi_word(target)
+        target_word_count = len(target.split())
+
+        # ── Silence gate: reject recordings with no real speech ──────────
+        if not _audio_has_speech(audio):
+            print(f"  Silent/near-silent recording for '{target}'")
+            return _empty_result(word, expected_phonemes, "omission")
 
         # Pass 1: Whisper WITHOUT hints for honest transcription
         result_raw = _model.transcribe(
@@ -181,13 +218,24 @@ def analyze_phonemes(audio_path: str, word: str, expected_phonemes: list) -> dic
         hint_text = result_hint["text"].strip().lower()
         hint_clean = "".join(c for c in hint_text if c.isalnum() or c == " ").strip()
 
-        # Guard against hallucination
-        if len(raw_clean) > len(target) * 4:
-            raw_clean = " ".join(raw_clean.split()[:3])
-        if len(hint_clean) > len(target) * 4:
-            hint_clean = " ".join(hint_clean.split()[:3])
+        # Guard against hallucination — scale limit by target word count
+        max_words = max(3, target_word_count * 3)
+        if len(raw_clean.split()) > max_words:
+            raw_clean = " ".join(raw_clean.split()[:max_words])
+        if len(hint_clean.split()) > max_words:
+            hint_clean = " ".join(hint_clean.split()[:max_words])
 
-        # Pick the best transcription: prefer raw (honest), but use hint if raw is empty
+        # ── Transcription selection ──────────────────────────────────────
+        # If raw pass heard nothing, the hinted pass likely hallucinated
+        # the target word from the prompt. Don't trust it.
+        if not raw_clean and hint_clean:
+            # Check if the hint just echoed back the target (hallucination)
+            hint_similarity = _char_accuracy(target, hint_clean)
+            if hint_similarity > 85:
+                print(f"  Hint likely hallucinated target (similarity={hint_similarity:.0f}%), treating as silence")
+                return _empty_result(word, expected_phonemes, "omission")
+
+        # Prefer raw (honest), fall back to hint only if raw is empty
         transcribed = raw_clean if raw_clean else hint_clean
 
         print(f"  Whisper raw: '{raw_clean}', hint: '{hint_clean}' (target: '{target}')")
@@ -195,15 +243,33 @@ def analyze_phonemes(audio_path: str, word: str, expected_phonemes: list) -> dic
         if not transcribed:
             return _empty_result(word, expected_phonemes, "omission")
 
-        # Find best matching word in transcription
-        best_word = transcribed
-        words = transcribed.split()
-        if len(words) > 1:
-            best_word = max(words, key=lambda w: _char_accuracy(target, w))
-
-        # Convert to phonemes via g2p
-        target_phonemes = _word_to_phonemes(target)
-        heard_phonemes = _word_to_phonemes(best_word)
+        if is_phrase:
+            # For sentences/phrases: use the full transcription, pick best
+            # contiguous subsequence matching target word count
+            heard_text = transcribed
+            t_words = transcribed.split()
+            if len(t_words) > target_word_count:
+                # Slide a window of target_word_count over transcription, pick best
+                best_score = -1
+                best_subseq = transcribed
+                for start in range(len(t_words) - target_word_count + 1):
+                    candidate = " ".join(t_words[start:start + target_word_count])
+                    sc = _char_accuracy(target, candidate)
+                    if sc > best_score:
+                        best_score = sc
+                        best_subseq = candidate
+                heard_text = best_subseq
+            # Convert phrase to phonemes word-by-word
+            target_phonemes = _phrase_to_phonemes(target)
+            heard_phonemes = _phrase_to_phonemes(heard_text)
+        else:
+            # For single words: pick the single best-matching word
+            best_word = transcribed
+            words = transcribed.split()
+            if len(words) > 1:
+                best_word = max(words, key=lambda w: _char_accuracy(target, w))
+            target_phonemes = _word_to_phonemes(target)
+            heard_phonemes = _word_to_phonemes(best_word)
 
         print(f"  Target phonemes: {target_phonemes}")
         print(f"  Heard phonemes:  {heard_phonemes}")

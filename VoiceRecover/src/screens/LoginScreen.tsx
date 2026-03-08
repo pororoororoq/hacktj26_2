@@ -22,7 +22,7 @@ import { FadeInView } from '../components/FadeInView';
 import { StaggeredWords } from '../components/StaggeredWords';
 import { AnimatedPressable } from '../components/AnimatedPressable';
 import { colors } from '../theme/colors';
-import { typography } from '../theme/typography';
+import { typography, fontFamily } from '../theme/typography';
 import { spacing, borderRadius } from '../theme/spacing';
 
 type Nav = StackNavigationProp<RootStackParamList, 'Login'>;
@@ -210,8 +210,9 @@ const styles = StyleSheet.create({
   hero: { alignItems: 'center', marginBottom: spacing.xl },
   emoji: { fontSize: 52, marginBottom: spacing.sm },
   appNameWord: {
+    fontFamily: fontFamily.serif,
     fontSize: 30,
-    fontWeight: '800',
+    fontWeight: '400',
     color: colors.primary,
     letterSpacing: -0.5,
   },
@@ -230,7 +231,7 @@ const styles = StyleSheet.create({
   heading: { ...typography.h2, color: colors.text, marginBottom: spacing.md },
 
   errorBanner: {
-    backgroundColor: '#FFF0F0',
+    backgroundColor: colors.errorBg,
     borderRadius: borderRadius.md,
     padding: spacing.sm,
     marginBottom: spacing.md,

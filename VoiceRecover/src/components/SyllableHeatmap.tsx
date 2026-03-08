@@ -47,15 +47,15 @@ export interface SyllableReport {
 // ── Colour helpers ────────────────────────────────────────────────────────────
 
 function bgColor(acc: number): string {
-  if (acc >= 80) return '#D4EDDA';
-  if (acc >= 60) return '#FFF3CD';
-  return '#F8D7DA';
+  if (acc >= 80) return colors.heatGoodBg;
+  if (acc >= 60) return colors.heatMidBg;
+  return colors.heatBadBg;
 }
 
 function fgColor(acc: number): string {
-  if (acc >= 80) return '#1A5C2A';
-  if (acc >= 60) return '#7A5000';
-  return '#842029';
+  if (acc >= 80) return colors.heatGoodText;
+  if (acc >= 60) return colors.heatMidText;
+  return colors.heatBadText;
 }
 
 function scoreLabel(acc: number): string {
@@ -122,8 +122,8 @@ function SuggestionCard({ sug }: { sug: SyllableSuggestion }) {
       <Text style={sugCard.title}>{sug.title}</Text>
       <Text style={sugCard.desc}>{sug.description}</Text>
       <View style={sugCard.wordRow}>
-        {sug.words.map(w => (
-          <View key={w} style={sugCard.chip}>
+        {sug.words.map((w, idx) => (
+          <View key={`${w}-${idx}`} style={sugCard.chip}>
             <Text style={sugCard.chipText}>{w}</Text>
           </View>
         ))}

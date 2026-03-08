@@ -27,10 +27,10 @@ type DrillRouteParams = {
 };
 
 function getScoreColor(score: number): string {
-  if (score >= 80) return '#4CAF50';
-  if (score >= 60) return '#FFC107';
-  if (score >= 40) return '#FF9800';
-  return '#F44336';
+  if (score >= 80) return colors.success;
+  if (score >= 60) return colors.warningYellow;
+  if (score >= 40) return colors.warning;
+  return colors.error;
 }
 
 export function DrillScreen() {

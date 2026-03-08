@@ -1,39 +1,53 @@
 export const colors = {
-  // Primary - warm, calming palette
-  primary: '#E8735A',      // Warm coral
-  primaryLight: '#F4A08E',  // Light coral
-  primaryDark: '#C95840',   // Deep coral
+  // Primary — dusty rose
+  primary: '#C49A8C',
+  primaryLight: '#DBBCAF',
+  primaryDark: '#A67E72',
 
-  // Secondary - calming blues
-  secondary: '#5B9BD5',     // Calm blue
-  secondaryLight: '#8CBAE8', // Light blue
+  // Secondary — sage green
+  secondary: '#8B9F87',
+  secondaryLight: '#A8B8A4',
 
-  // Accent
-  accent: '#FFB84D',        // Warm amber
+  // Accent — warm tan / gold
+  accent: '#D4B896',
 
-  // Semantic
-  success: '#4CAF50',       // Green
-  successLight: '#81C784',  // Light green
-  warning: '#FF9800',       // Orange
-  warningYellow: '#FFC107', // Yellow/amber
-  error: '#F44336',         // Red
+  // Semantic — muted to match palette
+  success: '#8BAF8B',
+  successLight: '#A8C6A8',
+  warning: '#D4A96A',
+  warningYellow: '#D4B87A',
+  error: '#C47272',
 
-  // Neutrals
-  background: '#FFF8F5',    // Warm off-white
-  surface: '#FFFFFF',
-  surfaceElevated: '#FFF0EB',
-  text: '#2D2D2D',
-  textSecondary: '#6B6B6B',
-  textLight: '#9E9E9E',
-  border: '#E8DDD8',
+  // Neutrals — warm cream & beige
+  background: '#F0E8DE',
+  surface: '#FAF6F1',
+  surfaceElevated: '#EDE5DA',
+  text: '#2C2420',
+  textSecondary: '#7A6E66',
+  textLight: '#A69890',
+  border: '#DDD5CA',
+
+  // Tinted backgrounds (for banners, badges)
+  errorBg: '#F5E0DE',
+  warningBg: '#F2E6D5',
+  accentBg: '#F0E8D5',
+  successBg: '#DDE8DD',
 
   // Phoneme status
-  phonemeOk: '#4CAF50',
-  phonemeWeak: '#F44336',
-  phonemeMid: '#FF9800',
+  phonemeOk: '#8BAF8B',
+  phonemeWeak: '#C47272',
+  phonemeMid: '#D4A96A',
 
   // Pitch visualization
-  pitchTarget: 'rgba(91, 155, 213, 0.4)',  // Semi-transparent blue
-  pitchPatient: '#E8735A',                  // Coral (matches primary)
-  pitchBackground: '#F5F0ED',
+  pitchTarget: 'rgba(139, 159, 135, 0.4)',
+  pitchPatient: '#C49A8C',
+  pitchBackground: '#EDE5DA',
+
+  // Heatmap
+  heatGoodBg: '#DDE8DD',
+  heatGoodText: '#3D5C3D',
+  heatMidBg: '#F0E4CC',
+  heatMidText: '#6B5520',
+  heatBadBg: '#EADAD8',
+  heatBadText: '#7A3535',
 };

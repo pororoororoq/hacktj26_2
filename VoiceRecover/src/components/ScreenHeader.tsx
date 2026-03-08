@@ -6,7 +6,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 import { colors } from '../theme/colors';
-import { typography } from '../theme/typography';
+import { typography, fontFamily } from '../theme/typography';
 import { spacing } from '../theme/spacing';
 
 interface ScreenHeaderProps {
@@ -43,8 +43,9 @@ const styles = StyleSheet.create({
   centered: { alignItems: 'center' },
   textBlock: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' },
   title: {
+    fontFamily: fontFamily.serif,
     fontSize: 28,
-    fontWeight: '800',
+    fontWeight: '400',
     color: colors.text,
     letterSpacing: -0.5,
     lineHeight: 34,

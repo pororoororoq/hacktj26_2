@@ -28,15 +28,15 @@ interface Props {
 }
 
 function cellColor(acc: number): string {
-  if (acc >= 80) return '#D4EDDA';   // light green
-  if (acc >= 60) return '#FFF3CD';   // light yellow
-  return '#F8D7DA';                  // light red
+  if (acc >= 80) return colors.heatGoodBg;
+  if (acc >= 60) return colors.heatMidBg;
+  return colors.heatBadBg;
 }
 
 function textColor(acc: number): string {
-  if (acc >= 80) return '#1A5C2A';
-  if (acc >= 60) return '#7A5000';
-  return '#842029';
+  if (acc >= 80) return colors.heatGoodText;
+  if (acc >= 60) return colors.heatMidText;
+  return colors.heatBadText;
 }
 
 function trendArrow(trend: string): string {
@@ -95,11 +95,11 @@ export function PhonemeHeatmap({ phonemes }: Props) {
       <Section title="Focus Area  (<60%)" data={weak} />
 
       <View style={styles.legend}>
-        <View style={[styles.legendDot, { backgroundColor: '#D4EDDA' }]} />
+        <View style={[styles.legendDot, { backgroundColor: colors.heatGoodBg }]} />
         <Text style={styles.legendText}>Strong</Text>
-        <View style={[styles.legendDot, { backgroundColor: '#FFF3CD', marginLeft: spacing.sm }]} />
+        <View style={[styles.legendDot, { backgroundColor: colors.heatMidBg, marginLeft: spacing.sm }]} />
         <Text style={styles.legendText}>Needs Work</Text>
-        <View style={[styles.legendDot, { backgroundColor: '#F8D7DA', marginLeft: spacing.sm }]} />
+        <View style={[styles.legendDot, { backgroundColor: colors.heatBadBg, marginLeft: spacing.sm }]} />
         <Text style={styles.legendText}>Focus</Text>
         <Text style={[styles.legendText, { marginLeft: spacing.sm }]}>↑ improving</Text>
         <Text style={[styles.legendText, { marginLeft: spacing.sm }]}>↓ declining</Text>

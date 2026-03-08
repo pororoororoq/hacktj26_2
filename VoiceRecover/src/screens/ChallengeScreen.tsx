@@ -19,7 +19,16 @@ import { colors } from '../theme/colors';
 import { typography } from '../theme/typography';
 import { spacing, borderRadius } from '../theme/spacing';
 
-const RECORD_DURATION = 3000;
+const RECORD_DURATION_WORD = 3000;
+const RECORD_DURATION_SENTENCE = 5000;
+const RECORD_DURATION_TWISTER = 6000;
+
+function getRecordDuration(word?: ChallengeWord | null): number {
+  if (!word) return RECORD_DURATION_WORD;
+  if (word.type === 'tongue_twister') return RECORD_DURATION_TWISTER;
+  if (word.type === 'sentence') return RECORD_DURATION_SENTENCE;
+  return RECORD_DURATION_WORD;
+}
 
 type Phase = 'browse' | 'practice' | 'recording' | 'analyzing' | 'result';
 
@@ -32,22 +41,22 @@ const LEVEL_LABELS: Record<number, string> = {
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
-  survival: '#E57373',
-  daily: '#5B9BD5',
-  emotional: '#FFB74D',
-  medical: '#81C784',
+  survival: colors.error,
+  daily: colors.secondary,
+  emotional: colors.accent,
+  medical: colors.success,
 };
 
 const TYPE_BADGES: Record<string, { icon: string; label: string; color: string }> = {
-  tongue_twister: { icon: '👅', label: 'Tongue Twister', color: '#9C27B0' },
-  sentence:       { icon: '💬', label: 'Sentence', color: '#00897B' },
+  tongue_twister: { icon: '👅', label: 'Tongue Twister', color: '#8C7A99' },
+  sentence:       { icon: '💬', label: 'Sentence', color: '#6B948B' },
 };
 
 function getScoreColor(score: number): string {
-  if (score >= 80) return '#4CAF50';
-  if (score >= 60) return '#FFC107';
-  if (score >= 40) return '#FF9800';
-  return '#F44336';
+  if (score >= 80) return colors.success;
+  if (score >= 60) return colors.warningYellow;
+  if (score >= 40) return colors.warning;
+  return colors.error;
 }
 
 export function ChallengeScreen() {
@@ -91,11 +100,13 @@ export function ChallengeScreen() {
 
   const handleRecord = useCallback(async () => {
     if (isRecording || !selectedWord) return;
+    const duration = getRecordDuration(selectedWord);
+    const countdownSecs = Math.ceil(duration / 1000);
     setPhase('recording');
-    setCountdown(3);
+    setCountdown(countdownSecs);
     await startRecording();
 
-    let remaining = 3;
+    let remaining = countdownSecs;
     countdownRef.current = setInterval(() => {
       remaining -= 1;
       setCountdown(remaining > 0 ? remaining : null);
@@ -121,7 +132,7 @@ export function ChallengeScreen() {
           setPhase('result');
         }
       }
-    }, RECORD_DURATION);
+    }, duration);
   }, [isRecording, selectedWord, startRecording, stopRecording]);
 
   // ── Loading ───────────────────────────────────────────────────────────
@@ -206,7 +217,7 @@ export function ChallengeScreen() {
                   </View>
                   <View style={styles.phonemeResults}>
                     {result.word_results[0].phonemes.map((ph, i) => (
-                      <View key={i} style={[styles.phonemeChip, { backgroundColor: ph.status === 'ok' ? '#E8F5E9' : '#FFEBEE' }]}>
+                      <View key={i} style={[styles.phonemeChip, { backgroundColor: ph.status === 'ok' ? colors.successBg : colors.errorBg }]}>
                         <Text style={[styles.phonemeChipText, { color: ph.status === 'ok' ? colors.success : colors.error }]}>
                           /{ph.phoneme}/ {ph.accuracy}%
                         </Text>
@@ -358,14 +369,14 @@ const styles = StyleSheet.create({
 
   // Challenge badge
   challengeBadge: {
-    backgroundColor: '#FFF3E0',
+    backgroundColor: colors.warningBg,
     borderRadius: borderRadius.md,
     paddingVertical: spacing.xs,
     paddingHorizontal: spacing.md,
     alignSelf: 'center',
     marginBottom: spacing.md,
   },
-  challengeBadgeText: { ...typography.caption, color: '#E65100', fontWeight: '600' },
+  challengeBadgeText: { ...typography.caption, color: colors.primaryDark, fontWeight: '600' },
 
   // Word card large
   wordCardLarge: {

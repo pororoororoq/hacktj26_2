@@ -18,7 +18,7 @@ import { StaggeredWords } from '../components/StaggeredWords';
 import { AnimatedPressable } from '../components/AnimatedPressable';
 import { getDailyMissions, Mission } from '../services/api';
 import { colors } from '../theme/colors';
-import { typography } from '../theme/typography';
+import { typography, fontFamily } from '../theme/typography';
 import { spacing, borderRadius } from '../theme/spacing';
 
 type Nav = StackNavigationProp<RootStackParamList, 'Welcome'>;
@@ -220,8 +220,9 @@ const styles = StyleSheet.create({
 
   // Staggered title words displayed inline
   titleWord: {
+    fontFamily: fontFamily.serif,
     fontSize: 34,
-    fontWeight: '800',
+    fontWeight: '400',
     color: colors.primary,
     letterSpacing: -0.5,
   },

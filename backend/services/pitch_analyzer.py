@@ -1,21 +1,22 @@
 import json
 import os
 import subprocess
-from typing import List, Dict
+from typing import List, Dict, Tuple
 
 import librosa
 import numpy as np
 
 _TARGET_MELODIES_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "target_melodies.json")
 
-# Scoring — tuned so that moderate pitch errors produce realistic scores:
+# Scoring — tuned so that moderate pitch errors produce encouraging scores:
 #   0 semitones avg → 100%    (perfect match)
-#   2 semitones avg → 80%     (very good)
-#   5 semitones avg → 50%     (mediocre)
-#  10 semitones avg → 0%      (way off)
-_DTW_SCALE = 10.0
+#   2 semitones avg → 82%     (very good)
+#   5 semitones avg → 55%     (mediocre)
+#  12 semitones avg → 0%      (way off)
+_DTW_SCALE = 8.3
 _DEVIATION_THRESHOLD_ST = 1.5  # semitones threshold for flagging a region
 _MIN_DEVIATION_DURATION = 0.25  # seconds
+_MEDIAN_FILTER_SIZE = 5  # frames for pitch smoothing
 
 
 def _load_target_melodies() -> dict:
@@ -77,7 +78,7 @@ def _trim_silence(audio: np.ndarray, sr: int = 16000, threshold_db: float = -35.
 
 
 def _hz_to_semitones(freqs: np.ndarray) -> np.ndarray:
-    """Convert Hz to semitones relative to the mean pitch (removes absolute pitch)."""
+    """Convert Hz to semitones relative to the median pitch (removes absolute pitch)."""
     valid = freqs[freqs > 0]
     if len(valid) == 0:
         return np.zeros_like(freqs)
@@ -85,6 +86,18 @@ def _hz_to_semitones(freqs: np.ndarray) -> np.ndarray:
     # Avoid log(0)
     safe_freqs = np.maximum(freqs, 1.0)
     return 12 * np.log2(safe_freqs / ref)
+
+
+def _median_filter(seq: np.ndarray, size: int = 5) -> np.ndarray:
+    """Apply median filter to remove spurious octave-jump outliers from pitch."""
+    if len(seq) < size:
+        return seq
+    filtered = np.copy(seq)
+    half = size // 2
+    for i in range(half, len(seq) - half):
+        window = seq[i - half:i + half + 1]
+        filtered[i] = np.median(window)
+    return filtered
 
 
 def _extract_pitch(audio: np.ndarray, sr: int = 16000) -> List[Dict[str, float]]:
@@ -99,8 +112,11 @@ def _extract_pitch(audio: np.ndarray, sr: int = 16000) -> List[Dict[str, float]]
     return points
 
 
-def _dtw_distance(seq_a: np.ndarray, seq_b: np.ndarray) -> float:
-    """Simple O(N*M) DTW on 1-D sequences. Returns normalized cost."""
+def _dtw_distance_with_path(seq_a: np.ndarray, seq_b: np.ndarray) -> Tuple[float, List[Tuple[int, int]]]:
+    """DTW on 1-D sequences. Returns (normalized cost, warping path).
+
+    The warping path is a list of (i, j) index pairs mapping seq_a[i] to seq_b[j].
+    """
     n = len(seq_a)
     m = len(seq_b)
     cost = np.full((n, m), np.inf)
@@ -116,33 +132,54 @@ def _dtw_distance(seq_a: np.ndarray, seq_b: np.ndarray) -> float:
                 cost[i, j - 1],
                 cost[i - 1, j - 1],
             )
-    return float(cost[n - 1, m - 1]) / (n + m)
+
+    total_cost = float(cost[n - 1, m - 1]) / (n + m)
+
+    # Backtrace to recover warping path
+    path = []
+    i, j = n - 1, m - 1
+    path.append((i, j))
+    while i > 0 or j > 0:
+        if i == 0:
+            j -= 1
+        elif j == 0:
+            i -= 1
+        else:
+            candidates = [
+                (cost[i - 1, j - 1], i - 1, j - 1),
+                (cost[i - 1, j],     i - 1, j),
+                (cost[i, j - 1],     i,     j - 1),
+            ]
+            _, i, j = min(candidates, key=lambda x: x[0])
+        path.append((i, j))
+    path.reverse()
+
+    return total_cost, path
 
 
-def _find_deviation_regions(
+def _find_deviation_regions_dtw(
     patient_st: np.ndarray,
     target_st: np.ndarray,
     patient_times: np.ndarray,
-    target_times: np.ndarray,
+    path: List[Tuple[int, int]],
 ) -> List[Dict]:
-    """Find regions where patient pitch deviates from target (in semitones)."""
-    if len(patient_st) == 0 or len(target_st) == 0:
-        return []
+    """Find deviation regions using the DTW warping path for time alignment.
 
-    # Resample target semitones onto patient time axis
-    target_interp = np.interp(
-        np.linspace(0, 1, len(patient_st)),
-        np.linspace(0, 1, len(target_st)),
-        target_st,
-    )
+    This is more accurate than naive linear interpolation because DTW
+    handles tempo differences (singing faster/slower in different parts).
+    """
+    if len(patient_st) == 0 or len(target_st) == 0 or not path:
+        return []
 
     regions = []
     region_start = None
     region_deviations = []
 
-    for i, (p_st, t_st) in enumerate(zip(patient_st, target_interp)):
-        t = float(patient_times[i]) if i < len(patient_times) else i * 0.01
-        deviation_st = p_st - t_st  # positive = sharp, negative = flat
+    for pi, ti in path:
+        if pi >= len(patient_st) or ti >= len(target_st):
+            continue
+        t = float(patient_times[pi]) if pi < len(patient_times) else pi * 0.01
+        deviation_st = patient_st[pi] - target_st[ti]
 
         if abs(deviation_st) > _DEVIATION_THRESHOLD_ST:
             if region_start is None:
@@ -159,6 +196,7 @@ def _find_deviation_regions(
                     regions.append({
                         "start": region_start,
                         "end": t,
+                        "avg_deviation_st": round(abs(avg_dev), 1),
                         "avg_deviation_hz": abs(avg_dev) * 10,  # rough st->hz for display
                         "label": label,
                     })
@@ -175,6 +213,7 @@ def _find_deviation_regions(
             regions.append({
                 "start": region_start,
                 "end": t,
+                "avg_deviation_st": round(abs(avg_dev), 1),
                 "avg_deviation_hz": abs(avg_dev) * 10,
                 "label": label,
             })
@@ -263,24 +302,76 @@ def analyze_pitch(audio_path: str, target_phrase_id: str) -> dict:
     target_st = _hz_to_semitones(target_freqs)
     patient_st = _hz_to_semitones(patient_freqs)
 
-    # Resample target to same length as patient for DTW
-    target_resampled = np.interp(
-        np.linspace(0, 1, len(patient_st)),
-        np.linspace(0, 1, len(target_st)),
-        target_st,
-    )
+    # Smooth out spurious octave-jump outliers from pyin
+    patient_st = _median_filter(patient_st, _MEDIAN_FILTER_SIZE)
+    target_st = _median_filter(target_st, _MEDIAN_FILTER_SIZE)
 
+    # ── Coverage penalty: if patient has far fewer voiced frames than target,
+    # they likely mumbled or only partially attempted the phrase ──────────
+    coverage_ratio = len(patient_points) / max(len(target_contour), 1)
+    coverage_penalty = 1.0
+    if coverage_ratio < 0.3:
+        coverage_penalty = 0.3  # severe: barely any voiced frames
+        print(f"  Pitch: low coverage ({coverage_ratio:.2f}), heavy penalty")
+    elif coverage_ratio < 0.6:
+        coverage_penalty = 0.6
+        print(f"  Pitch: partial coverage ({coverage_ratio:.2f}), moderate penalty")
+
+    # ── Variation penalty: monotone mumbling shouldn't score well ────────
+    # Compare pitch range (std dev) of patient vs target
+    target_variation = float(np.std(target_st)) if len(target_st) > 1 else 0.0
+    patient_variation = float(np.std(patient_st)) if len(patient_st) > 1 else 0.0
+    variation_penalty = 1.0
+    if target_variation > 0.5:  # target has meaningful pitch movement
+        variation_ratio = patient_variation / target_variation
+        if variation_ratio < 0.2:
+            variation_penalty = 0.3  # flat monotone vs real melody
+            print(f"  Pitch: monotone (var ratio={variation_ratio:.2f}), heavy penalty")
+        elif variation_ratio < 0.5:
+            variation_penalty = 0.6
+            print(f"  Pitch: low variation (var ratio={variation_ratio:.2f}), moderate penalty")
+
+    # ── Contour shape correlation: does the pitch go up/down in the
+    # same places as the target? ──────────────────────────────────────────
+    shape_penalty = 1.0
+    if len(patient_st) >= 5 and len(target_st) >= 5:
+        # Resample to same length for correlation check
+        resampled_target = np.interp(
+            np.linspace(0, 1, len(patient_st)),
+            np.linspace(0, 1, len(target_st)),
+            target_st,
+        )
+        correlation = float(np.corrcoef(patient_st, resampled_target)[0, 1])
+        if np.isnan(correlation):
+            correlation = 0.0
+        # Negative or near-zero correlation = wrong shape
+        if correlation < 0.1:
+            shape_penalty = 0.4
+            print(f"  Pitch: poor contour match (corr={correlation:.2f}), heavy penalty")
+        elif correlation < 0.4:
+            shape_penalty = 0.7
+            print(f"  Pitch: weak contour match (corr={correlation:.2f}), moderate penalty")
+
+    # Run DTW on raw (unaligned) sequences — let DTW handle tempo differences
     try:
-        dtw_cost = _dtw_distance(patient_st, target_resampled)
+        dtw_cost, warp_path = _dtw_distance_with_path(patient_st, target_st)
     except Exception:
         dtw_cost = 25.0
+        warp_path = []
 
-    # Score: 100 at cost=0, 0 at cost=25 semitones
-    alignment_score = int(max(0, min(100, 100 - dtw_cost * _DTW_SCALE)))
-    print(f"  Pitch: DTW cost={dtw_cost:.2f} semitones, score={alignment_score}%")
+    # Base score from DTW: 100 at cost=0, 0 at cost=12 semitones
+    raw_score = max(0, min(100, 100 - dtw_cost * _DTW_SCALE))
 
-    # Deviation regions (in semitones)
-    deviation_regions = _find_deviation_regions(patient_st, target_st, patient_times, target_times)
+    # Apply penalties
+    alignment_score = int(raw_score * coverage_penalty * variation_penalty * shape_penalty)
+    alignment_score = max(0, min(100, alignment_score))
+
+    print(f"  Pitch: DTW cost={dtw_cost:.2f}, raw={raw_score:.0f}%, "
+          f"penalties(cov={coverage_penalty}, var={variation_penalty}, shape={shape_penalty}), "
+          f"final={alignment_score}%")
+
+    # Deviation regions using DTW warping path (not naive interpolation)
+    deviation_regions = _find_deviation_regions_dtw(patient_st, target_st, patient_times, warp_path)
 
     # Feedback
     feedback = _generate_feedback(alignment_score, deviation_regions)

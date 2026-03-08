@@ -219,12 +219,12 @@ const styles = StyleSheet.create({
   citationLink: { ...typography.caption, color: colors.secondary, fontWeight: '600', marginTop: 4 },
 
   disclaimerBox: {
-    backgroundColor: '#FFF8E1',
+    backgroundColor: colors.accentBg,
     borderRadius: borderRadius.lg,
     padding: spacing.md,
     borderLeftWidth: 3,
     borderLeftColor: colors.accent,
     marginBottom: spacing.lg,
   },
-  disclaimerText: { ...typography.caption, color: '#6D4C00', lineHeight: 18 },
+  disclaimerText: { ...typography.caption, color: colors.heatMidText, lineHeight: 18 },
 });

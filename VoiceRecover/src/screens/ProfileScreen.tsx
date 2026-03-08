@@ -52,7 +52,7 @@ function StatCard({ value, label, suffix = '', color = colors.primary, delay = 0
         <View style={[statStyles.dotInner, { backgroundColor: color }]} />
       </View>
       {typeof value === 'number' ? (
-        <Animated.Text style={[statStyles.value, { color }]}>{displayStr}{suffix}</Animated.Text>
+        <Animated.Text style={[statStyles.value, { color }]}>{displayStr as any}{suffix}</Animated.Text>
       ) : (
         <Text style={[statStyles.value, { color }]}>{value}</Text>
       )}
@@ -105,7 +105,7 @@ function SettingsRow({ icon, label, onPress, danger = false }: { icon: string; l
 const settingStyles = StyleSheet.create({
   row:           { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.border, gap: spacing.md },
   iconBox:       { width: 36, height: 36, borderRadius: borderRadius.sm, backgroundColor: colors.surfaceElevated, alignItems: 'center', justifyContent: 'center' },
-  iconBoxDanger: { backgroundColor: '#FFF0F0' },
+  iconBoxDanger: { backgroundColor: colors.errorBg },
   icon:          { fontSize: 18 },
   label:         { ...typography.body, color: colors.text, flex: 1 },
   labelDanger:   { color: colors.error },
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
   avatar: { width: 90, height: 90, borderRadius: 45, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center', shadowColor: colors.primary, shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.35, shadowRadius: 14, elevation: 10 },
   avatarText:  { fontSize: 40, fontWeight: '800', color: '#fff' },
   nameText:    { fontSize: 22, fontWeight: '700', color: colors.text, letterSpacing: -0.3 },
-  streakBadge: { marginTop: spacing.xs, backgroundColor: '#FFF3E0', borderRadius: borderRadius.full, paddingVertical: 4, paddingHorizontal: spacing.md },
+  streakBadge: { marginTop: spacing.xs, backgroundColor: colors.warningBg, borderRadius: borderRadius.full, paddingVertical: 4, paddingHorizontal: spacing.md },
   streakText:  { fontSize: 13, fontWeight: '700', color: colors.accent },
 
   statsRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.lg },

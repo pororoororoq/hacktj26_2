@@ -77,7 +77,7 @@ export function ScoreLineChart({ sessions }: Props) {
             <G key={g}>
               <Line
                 x1={0} y1={yOf(g)} x2={innerW} y2={yOf(g)}
-                stroke={g === 0 ? colors.border : '#EDE8E4'}
+                stroke={g === 0 ? colors.border : colors.surfaceElevated}
                 strokeWidth={g === 0 ? 1.5 : 1}
                 strokeDasharray={g === 0 || g === 100 ? undefined : '4 3'}
               />

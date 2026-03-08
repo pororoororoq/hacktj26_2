@@ -60,7 +60,7 @@ const RECORD_SECONDS = 5;
 
 function getScoreColor(score: number): string {
   if (score >= 80) return colors.success;
-  if (score >= 60) return '#FFC107';  // yellow
+  if (score >= 60) return colors.warningYellow;
   if (score >= 40) return colors.warning;
   return colors.error;
 }
@@ -667,7 +667,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   errorCard: {
-    backgroundColor: '#FFF0F0',
+    backgroundColor: colors.errorBg,
     borderRadius: borderRadius.md,
     padding: spacing.md,
     marginBottom: spacing.md,
